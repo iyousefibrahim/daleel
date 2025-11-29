@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
   // Temp
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
