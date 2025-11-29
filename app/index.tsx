@@ -1,15 +1,12 @@
 import { Text, View } from "react-native";
+import { TamaguiProvider } from "tamagui";
+import config from "./constants/tamagui.config";
+import RootNavigator from "./navigation/RootNavigator";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+     <TamaguiProvider config={config} >
+      <RootNavigator/>  
+    </TamaguiProvider>
   );
 }
