@@ -1,17 +1,18 @@
-import { View, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text } from "@/app/components/Text";
+import { View } from "react-native";
 
-const LoginScreen = () => {
+export default function LoginScreen() {
   return (
-    <SafeAreaView>
-      <View>
-        <Text>LoginScreen</Text>
-        <Text>LoginScreen</Text>
-        <Text>LoginScreen</Text>
-        <Text>LoginScreen</Text>
-      </View>
-    </SafeAreaView>
+    <View>
+      <Text
+        fontSize={"$9"}
+        margin={"$4"}
+        align="center"
+        weight="light"
+        padding={"$4"}
+      >
+        تسجيل الدخول
+      </Text>
+    </View>
   );
-};
-
-export default LoginScreen;
+}
