@@ -10,11 +10,16 @@ export default {
   extra: {
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+    eas: {
+      projectId: "cb1d1254-4cf9-4275-ad73-0d8044d3131e",
+    },
   },
   ios: {
     supportsTablet: true,
+    supportsRTL: true,
   },
   android: {
+    
     adaptiveIcon: {
       backgroundColor: "#E6F4FE",
       foregroundImage: "./assets/images/android-icon-foreground.png",

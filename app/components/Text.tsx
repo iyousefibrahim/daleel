@@ -1,8 +1,8 @@
 import { styled, GetProps } from "@tamagui/core";
 import { Text as TamaguiText } from "@tamagui/core";
+import type { ColorTokens } from "@tamagui/core";
 
-// Custom Text component using Cairo font from config
-export const Text = styled(TamaguiText, {
+const StyledText = styled(TamaguiText, {
   name: "Text",
   fontFamily: "$body", 
   color: "$color",
@@ -37,28 +37,28 @@ export const Text = styled(TamaguiText, {
 
     weight: {
       extralight: {
-        fontWeight: "$1", // 200 - Cairo-ExtraLight
+        fontWeight: "$1", // 200 
       },
       light: {
-        fontWeight: "$2", // 300 - Cairo-Light
+        fontWeight: "$2", // 300
       },
       normal: {
-        fontWeight: "$3", // 400 - Cairo-Regular
+        fontWeight: "$3", // 400
       },
       medium: {
-        fontWeight: "$4", // 500 - Cairo-Medium
+        fontWeight: "$4", // 500
       },
       semibold: {
-        fontWeight: "$5", // 600 - Cairo-SemiBold
+        fontWeight: "$5", // 600 
       },
       bold: {
-        fontWeight: "$6", // 700 - Cairo-Bold
+        fontWeight: "$6", // 700 
       },
       extrabold: {
-        fontWeight: "$7", // 800 - Cairo-ExtraBold
+        fontWeight: "$7", // 800 
       },
       black: {
-        fontWeight: "$8", // 900 - Cairo-Black
+        fontWeight: "$8", // 900
       },
     },
 
@@ -77,7 +77,7 @@ export const Text = styled(TamaguiText, {
       },
     },
 
-    color: {
+    colorVariant: {
       default: {
         color: "$color",
       },
@@ -114,9 +114,15 @@ export const Text = styled(TamaguiText, {
   defaultVariants: {
     size: "md",
     weight: "normal",
-    color: "default",
+    colorVariant: "default",
   },
 });
 
-// Export type for TypeScript
-export type TextProps = GetProps<typeof Text>;
+type BaseTextProps = GetProps<typeof StyledText>;
+
+export type TextProps = Omit<BaseTextProps, 'color'> & {
+  color?: ColorTokens | string;
+  colorVariant?: BaseTextProps['colorVariant'];
+};
+
+export const Text = StyledText as React.ComponentType<TextProps>;

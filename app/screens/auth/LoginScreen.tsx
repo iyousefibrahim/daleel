@@ -1,18 +1,28 @@
+import { View, TouchableOpacity } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { type AuthStackParamList } from "@/app/types/types";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "@/app/components/Text";
-import { View } from "react-native";
 
-export default function LoginScreen() {
+type LoginScreenNavigationProp = NativeStackNavigationProp<
+  AuthStackParamList,
+  "Login"
+>;
+
+type Props = {
+  navigation: LoginScreenNavigationProp;
+};
+
+export default function LoginScreen({ navigation }: Props) {
   return (
-    <View>
-      <Text
-        fontSize={"$9"}
-        margin={"$4"}
-        align="center"
-        weight="light"
-        padding={"$4"}
-      >
-        تسجيل الدخول
-      </Text>
-    </View>
+    <SafeAreaView>
+      {/* Your login form here */}
+
+      <View>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text>إنشاء حساب جديد</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
