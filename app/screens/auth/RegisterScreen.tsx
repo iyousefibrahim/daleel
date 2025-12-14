@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Platform, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { YStack, XStack, Input, Button } from "tamagui";
-import { useToastController } from "@tamagui/toast";
 import { Text } from "@/app/components/Text";
 import { AuthStackParamList } from "@/app/types/types";
 import useAuth from "@/app/features/auth/hooks/useAuth";
@@ -12,6 +11,9 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/app/features/auth/validators/authSchema";
 import Entypo from "@expo/vector-icons/Entypo";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { useTheme } from "@tamagui/core";
+import Toast from "react-native-toast-message";
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -26,7 +28,7 @@ const RegisterScreen = ({ navigation }: Props) => {
   const { registerMutation } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const isLoading = registerMutation.isPending;
-  const toast = useToastController();
+  const theme = useTheme();
 
   const {
     control,
@@ -49,10 +51,12 @@ const RegisterScreen = ({ navigation }: Props) => {
       {
         onSuccess: () => {
           console.log("success", registerMutation.data);
-          toast.show("تم إنشاء الحساب بنجاح!", {
-            message: "مرحباً بك! يمكنك الآن تسجيل الدخول",
-            duration: 4000,
+          Toast.show({
+            type: "success",
+            text1: "تم إنشاء الحساب بنجاح!",
+            text2: "مرحباً بك! يمكنك الآن تسجيل الدخول",
           });
+          navigation.navigate("Login");
         },
         onError: (error: any) => {
           console.log("error", error);
@@ -60,9 +64,10 @@ const RegisterScreen = ({ navigation }: Props) => {
             error?.response?.data?.message ||
             error?.message ||
             "حدث خطأ أثناء إنشاء الحساب";
-          toast.show("فشل التسجيل", {
-            message: errorMessage,
-            duration: 4000,
+          Toast.show({
+            type: "error",
+            text1: "فشل التسجيل",
+            text2: errorMessage,
           });
         },
       }
@@ -70,12 +75,12 @@ const RegisterScreen = ({ navigation }: Props) => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background.get() }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <YStack px="$5" py={Platform.OS === "ios" ? "$3" : "$5"}>
+        <YStack px="$5" py={Platform.OS === "ios" ? "$0" : "$5"}>
           {/* Header */}
           <YStack mb="$8">
             <Text
@@ -84,20 +89,21 @@ const RegisterScreen = ({ navigation }: Props) => {
               mb="$3"
               lineHeight={35}
               width="100%"
+              textAlign="left"
             >
               إنشاء حساب جديد
             </Text>
-            <Text fontSize={16} width="100%">
+            <Text fontSize={16} width="100%" textAlign="left">
               أدخل بياناتك للبدء
             </Text>
           </YStack>
 
           {/* Form */}
-          <YStack gap="$5">
+          <YStack gap="$4">
             <XStack gap="$2">
               {/* First Name */}
               <YStack gap="$2" flex={1}>
-                <Text fontSize={14} fontWeight="600">
+                <Text textAlign="left" fontSize={14} fontWeight="600">
                   الاسم الأول
                 </Text>
                 <Controller
@@ -117,6 +123,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                       borderColor="$gray300"
                       borderRadius="$4"
                       px="$4"
+                      py="$2"
                       height="$12"
                       focusStyle={{
                         borderColor: "$primary500",
@@ -126,7 +133,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                   )}
                 />
                 {errors.first_name && (
-                  <Text fontSize={12} color="red">
+                  <Text textAlign="right" fontSize={12} color="red">
                     {errors.first_name.message}
                   </Text>
                 )}
@@ -134,7 +141,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
               {/* Last Name */}
               <YStack gap="$2" flex={1}>
-                <Text fontSize={14} fontWeight="600">
+                <Text textAlign="left" fontSize={14} fontWeight="600">
                   الاسم الأخير
                 </Text>
                 <Controller
@@ -153,6 +160,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                       borderColor="$gray300"
                       borderRadius="$4"
                       px="$4"
+                      py="$2"
                       height="$12"
                       textAlign="right"
                       fontSize={16}
@@ -164,14 +172,16 @@ const RegisterScreen = ({ navigation }: Props) => {
                   )}
                 />
                 {errors.last_name && (
-                  <Text fontSize={12}>{errors.last_name.message}</Text>
+                  <Text textAlign="right" fontSize={12}>
+                    {errors.last_name.message}
+                  </Text>
                 )}
               </YStack>
             </XStack>
 
             {/* Username */}
             <YStack gap="$2">
-              <Text fontSize={14} fontWeight="600">
+              <Text textAlign="left" fontSize={14} fontWeight="600">
                 اسم المستخدم
               </Text>
               <Controller
@@ -190,6 +200,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                     borderColor="$gray300"
                     borderRadius="$4"
                     px="$4"
+                    py="$2"
                     textAlign="right"
                     height="$12"
                     fontSize={16}
@@ -198,13 +209,15 @@ const RegisterScreen = ({ navigation }: Props) => {
                 )}
               />
               {errors.username && (
-                <Text fontSize={12}>{errors.username.message}</Text>
+                <Text textAlign="right" fontSize={12}>
+                  {errors.username.message}
+                </Text>
               )}
             </YStack>
 
             {/* Email */}
             <YStack gap="$2">
-              <Text fontSize={14} fontWeight="600">
+              <Text textAlign="left" fontSize={14} fontWeight="600">
                 البريد الإلكتروني
               </Text>
               <Controller
@@ -226,6 +239,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                     borderColor="$gray300"
                     borderRadius="$4"
                     px="$4"
+                    py="$2"
                     height="$12"
                     fontSize={16}
                     focusStyle={{ borderColor: "$primary500", borderWidth: 2 }}
@@ -233,7 +247,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                 )}
               />
               {errors.email && (
-                <Text fontSize={12} color={"red"}>
+                <Text textAlign="right" fontSize={12} color={"red"}>
                   {errors.email.message}
                 </Text>
               )}
@@ -241,7 +255,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
             {/* Password */}
             <YStack gap="$2" position="relative">
-              <Text fontSize={14} fontWeight="600">
+              <Text textAlign="left" fontSize={14} fontWeight="600">
                 كلمة المرور
               </Text>
 
@@ -264,6 +278,7 @@ const RegisterScreen = ({ navigation }: Props) => {
                       borderColor="$gray300"
                       borderRadius="$4"
                       px="$4"
+                      py="$2"
                       textAlign="right"
                       height="$12"
                       fontSize={16}
@@ -295,11 +310,11 @@ const RegisterScreen = ({ navigation }: Props) => {
               </YStack>
 
               {errors.password && (
-                <Text color="red" fontSize={12}>
+                <Text textAlign="right" color="red" fontSize={12}>
                   {errors.password.message}
                 </Text>
               )}
-              <Text fontSize={12} color="$gray500">
+              <Text textAlign="right" fontSize={12} color="$gray500">
                 يجب أن تحتوي على 6 أحرف على الأقل
               </Text>
             </YStack>
@@ -325,6 +340,58 @@ const RegisterScreen = ({ navigation }: Props) => {
               <Text fontSize={14}>أو</Text>
               <YStack f={1} h={1} bg="$gray300" />
             </XStack>
+
+            {/* Google Button Android */}
+            {Platform.OS === "android" && (
+              <Button
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
+                bg="$white"
+                borderWidth={1.5}
+                borderColor="$gray300"
+                borderRadius="$4"
+                height="$12"
+                px="$4"
+                pressStyle={{ opacity: 0.8 }}
+              >
+                <Text ml="$3" fontSize={16} fontWeight="600" color="black">
+                  تسجيل باستخدام Google
+                </Text>
+                <AntDesign name="google" size={24} color="#DB4437" />
+              </Button>
+            )}
+
+            {/* Apple Button iOS */}
+            {Platform.OS === "ios" && (
+              <Button
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
+                bg="$black"
+                borderRadius="$4"
+                height="$12"
+                px="$4"
+                textAlign="left"
+                pressStyle={{ opacity: 0.8 }}
+              >
+                <Text
+                  textAlign="left"
+                  ml="$3"
+                  fontSize={16}
+                  fontWeight="600"
+                  color="white"
+                >
+                  تسجيل باستخدام Apple
+                </Text>
+                <FontAwesome
+                  textAlign="left"
+                  name="apple"
+                  size={24}
+                  color="white"
+                />
+              </Button>
+            )}
 
             {/* Login Link */}
             <XStack gap="$1" alignItems="center" justifyContent="center">

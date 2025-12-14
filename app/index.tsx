@@ -1,10 +1,10 @@
 import { TamaguiProvider } from "@tamagui/core";
-import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import RootNavigator from "./navigation/RootNavigator";
 import { useFonts } from "expo-font";
 import { I18nManager } from "react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import config from "./constants/tamagui.config";
+import Toast from "react-native-toast-message";
 
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
@@ -25,13 +25,9 @@ export default function Index() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* TamaguiProvider هو الأساس */}
       <TamaguiProvider config={config} defaultTheme="light">
-        {/* ToastProvider جوه TamaguiProvider */}e{" "}
-        <ToastProvider>
-          <RootNavigator />
-          <ToastViewport />
-        </ToastProvider>
+        <RootNavigator />
+        <Toast position="top" />
       </TamaguiProvider>
     </QueryClientProvider>
   );

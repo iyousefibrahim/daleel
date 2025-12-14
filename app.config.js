@@ -13,13 +13,14 @@ export default {
     eas: {
       projectId: "cb1d1254-4cf9-4275-ad73-0d8044d3131e",
     },
+    supportsRTL: true,
+    forcesRTL: true,
   },
   ios: {
     supportsTablet: true,
     supportsRTL: true,
   },
   android: {
-    
     adaptiveIcon: {
       backgroundColor: "#E6F4FE",
       foregroundImage: "./assets/images/android-icon-foreground.png",
@@ -47,6 +48,7 @@ export default {
         },
       },
     ],
+    "expo-localization",
   ],
   experiments: {
     typedRoutes: true,
