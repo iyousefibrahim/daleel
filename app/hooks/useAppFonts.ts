@@ -2,12 +2,14 @@ import { useFonts } from "expo-font";
 
 export function useAppFonts() {
   const [loaded] = useFonts({
-    "IBMPlexSansArabic-ExtraLight": require("../../assets/fonts/IBMPlexSansArabic-ExtraLight.ttf"),
-    "IBMPlexSansArabic-Light": require("../../assets/fonts/IBMPlexSansArabic-Light.ttf"),
-    "IBMPlexSansArabic-Regular": require("../../assets/fonts/IBMPlexSansArabic-Regular.ttf"),
-    "IBMPlexSansArabic-Medium": require("../../assets/fonts/IBMPlexSansArabic-Medium.ttf"),
-    "IBMPlexSansArabic-SemiBold": require("../../assets/fonts/IBMPlexSansArabic-SemiBold.ttf"),
-    "IBMPlexSansArabic-Bold": require("../../assets/fonts/IBMPlexSansArabic-Bold.ttf"),
+    "Cairo-ExtraLight": require("../../assets/fonts/Cairo-ExtraLight.ttf"),
+    "Cairo-Light": require("../../assets/fonts/Cairo-Light.ttf"),
+    "Cairo-Regular": require("../../assets/fonts/Cairo-Regular.ttf"),
+    "Cairo-Medium": require("../../assets/fonts/Cairo-Medium.ttf"),
+    "Cairo-SemiBold": require("../../assets/fonts/Cairo-SemiBold.ttf"),
+    "Cairo-Bold": require("../../assets/fonts/Cairo-Bold.ttf"),
+    "Cairo-ExtraBold": require("../../assets/fonts/Cairo-ExtraBold.ttf"),
+    "Cairo-Black": require("../../assets/fonts/Cairo-Black.ttf"),
   });
 
   return loaded;

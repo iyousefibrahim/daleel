@@ -1,7 +1,7 @@
 import { createFont, createTamagui, createTokens } from "@tamagui/core";
 
-const ibmPlexArabicFont = createFont({
-  family: "IBMPlexSansArabic-Regular",
+const cairoFont = createFont({
+  family: "Cairo-Regular",
 
   size: {
     1: 11,
@@ -40,16 +40,15 @@ const ibmPlexArabicFont = createFont({
     8: "900",
   },
 
-  // Fixed: face should map weight strings to font family objects
   face: {
-    "200": { normal: "IBMPlexSansArabic-ExtraLight" },
-    "300": { normal: "IBMPlexSansArabic-Light" },
-    "400": { normal: "IBMPlexSansArabic-Regular" },
-    "500": { normal: "IBMPlexSansArabic-Medium" },
-    "600": { normal: "IBMPlexSansArabic-SemiBold" },
-    "700": { normal: "IBMPlexSansArabic-Bold" },
-    "800": { normal: "IBMPlexSansArabic-ExtraBold" },
-    "900": { normal: "IBMPlexSansArabic-Black" },
+    "200": { normal: "Cairo-ExtraLight" },
+    "300": { normal: "Cairo-Light" },
+    "400": { normal: "Cairo-Regular" },
+    "500": { normal: "Cairo-Medium" },
+    "600": { normal: "Cairo-SemiBold" },
+    "700": { normal: "Cairo-Bold" },
+    "800": { normal: "Cairo-ExtraBold" },
+    "900": { normal: "Cairo-Black" },
   },
 });
 
@@ -325,9 +324,9 @@ const config = createTamagui({
     dark: darkTheme,
   },
   fonts: {
-    heading: ibmPlexArabicFont,
-    body: ibmPlexArabicFont,
-    mono: ibmPlexArabicFont,
+    heading: cairoFont,
+    body: cairoFont,
+    mono: cairoFont,
   },
   media: {
     xs: { maxWidth: 660 },
@@ -374,4 +373,4 @@ declare module "@tamagui/core" {
 export default config;
 
 // Export individual theme objects for use in components
-export { ibmPlexArabicFont, colors, darkTheme, lightTheme, tokens };
+export { cairoFont, colors, darkTheme, lightTheme, tokens };

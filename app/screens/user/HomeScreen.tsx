@@ -1,17 +1,22 @@
-import { Text } from "react-native";
-import { Button } from "tamagui";
+import { ScrollView, XStack } from "tamagui";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useAuth from "@/app/features/auth/hooks/useAuth";
+import HomeWelcome from "@/app/components/HomeWelcome";
+import Notifications from "@/app/components/Notifications";
+import { Platform } from "react-native";
+import Search from "@/app/features/auth/components/Search";
 
 const HomeScreen = () => {
-  const { logoutMutation } = useAuth();
-  const handleLogOut = async () => {
-    logoutMutation.mutate();
-  };
   return (
     <SafeAreaView>
-      <Text>HomeScreen</Text>
-      <Button onPress={handleLogOut}>LogOut</Button>
+      <ScrollView contentContainerStyle={{ backgroundColor: "$color7" }}>
+        {/* Header */}
+        <XStack pt={Platform.OS === "ios" ? "$0" : "$5"} pb={"$4"}>
+          <HomeWelcome />
+          <Notifications />
+        </XStack>
+
+        <Search />
+      </ScrollView>
     </SafeAreaView>
   );
 };
