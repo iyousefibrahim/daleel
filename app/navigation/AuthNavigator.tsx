@@ -2,9 +2,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
 import { AuthStackParamList } from "../types/types";
-import { supabase } from "../lib/supabaseClient";
-import { useEffect } from "react";
-import useAuth from "../features/auth/hooks/useAuth";
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
