@@ -322,7 +322,7 @@ const RegisterScreen = ({ navigation }: Props) => {
             {/* Register Button */}
             <Button
               onPress={handleRegister}
-              disabled={isLoading || !isValid}
+              disabled={isLoading}
               bg="$color9"
               borderRadius="$4"
               height="$12"

@@ -1,6 +1,6 @@
 import { supabase } from "@/app/lib/supabaseClient";
 
-export default async function register(
+export async function register(
   email: string,
   password: string,
   username: string,
@@ -31,4 +31,36 @@ export default async function register(
   }
 
   return profileData;
+}
+
+export async function loginWithPassword(email: string, password: string) {
+  const { error, data } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function logOut() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function getUserSession() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return null;
+  }
+
+  return user;
 }
