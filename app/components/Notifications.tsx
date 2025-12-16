@@ -1,13 +1,10 @@
-import { View, Text } from "react-native";
-import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "tamagui";
+import { useTheme, XStack } from "tamagui";
 
 const Notifications = () => {
   const theme = useTheme();
   return (
-    <View>
-      {/* notifications icons */}
+    <XStack>
       <Ionicons
         name="notifications-outline"
         size={30}
@@ -16,8 +13,7 @@ const Notifications = () => {
         padding={10}
         color={theme.color9.get()}
       />
-      {/* bade one notification */}
-    </View>
+    </XStack>
   );
 };
 

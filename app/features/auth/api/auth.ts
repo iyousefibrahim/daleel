@@ -10,6 +10,12 @@ export async function register(
   const { error, data } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        full_name,
+        username,
+      },
+    },
   });
 
   if (error) {

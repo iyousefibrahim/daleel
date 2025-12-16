@@ -28,7 +28,7 @@ const Search = () => {
         placeholderTextColor="$gray500"
         autoCapitalize="none"
         bg="transparent"
-        color="$color4"
+        color="$black"
         borderWidth={0}
         px="$3"
         textAlign="right"
