@@ -20,3 +20,17 @@ export interface Profile {
   is_active?: boolean;
   is_deleted?: boolean;
 }
+
+export interface Category {
+  id: string; // UUID, default: gen_random_uuid()
+  name: string; // text, يمكن يكون NULL
+  icon_url: string; // text, يمكن يكون NULL
+
+  // Optional fields
+  description?: string | null; // text, يمكن يكون NULL
+  is_active?: boolean; // default: TRUE
+  is_deleted?: boolean; // default: FALSE
+
+  created_at?: string; // timestamptz, default: now()
+  updated_at?: string; // timestamptz, default: now()
+}

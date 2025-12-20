@@ -1,4 +1,3 @@
-import React from "react";
 import useAuth from "@/app/features/auth/hooks/useAuth";
 import { Button, Text, YStack } from "tamagui";
 

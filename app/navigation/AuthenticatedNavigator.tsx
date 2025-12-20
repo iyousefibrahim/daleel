@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/user/HomeScreen";
-import ServicesScreen from "../screens/user/ServicesScreen";
 import MyTripsScreen from "../screens/user/MyTripsScreen";
 import Profile from "../screens/user/Profile";
 import { Fontisto, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "tamagui";
 import { cairoFont } from "../constants/tamagui.config";
+import CategoriesStackNavigator from "./CategoriesStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,8 +17,8 @@ export default function AuthenticatedNavigator() {
         headerShown: false,
         sceneStyle: {
           backgroundColor: theme.background.get(),
-          paddingEnd: 15,
-          paddingStart: 15,
+          paddingEnd: 10,
+          paddingStart: 10,
         },
         tabBarStyle: {
           backgroundColor: theme.background.get(),
@@ -55,7 +55,7 @@ export default function AuthenticatedNavigator() {
           ),
         }}
         name="الخدمات"
-        component={ServicesScreen}
+        component={CategoriesStackNavigator}
       />
       <Tab.Screen
         options={{
