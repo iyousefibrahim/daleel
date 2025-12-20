@@ -2,11 +2,10 @@ import { ScrollView, XStack, YStack } from "tamagui";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeWelcome from "@/app/components/HomeWelcome";
 import Notifications from "@/app/components/Notifications";
-import { Platform } from "react-native";
 import Search from "@/app/components/Search";
 import CurrentTasks from "@/app/components/CurrentTasks";
-import DiscoverNewMissions from "@/app/components/DiscoverNewTasks";
 import { useTheme } from "tamagui";
+import DiscoverNewTrips from "@/app/features/categories/components/DiscoverNewTrips";
 
 const HomeScreen = () => {
   const theme = useTheme();
@@ -33,7 +32,7 @@ const HomeScreen = () => {
           <YStack f={1} h={1} bg="$gray300" />
         </XStack>
 
-        <DiscoverNewMissions />
+        <DiscoverNewTrips />
       </ScrollView>
     </SafeAreaView>
   );

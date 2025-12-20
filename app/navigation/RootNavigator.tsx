@@ -15,7 +15,7 @@ export default function RootNavigator() {
   return (
     <Stack.Navigator
       key={userSession ? "user" : "guest"}
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: false, animation: "fade" }}
     >
       {userSession ? (
         <Stack.Screen name="Main" component={AuthenticatedNavigator} />

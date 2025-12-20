@@ -163,7 +163,7 @@ const tokens = createTokens({
 
 const lightTheme = {
   // Backgrounds
-  background: colors.white,
+  background: colors.gray50,
   backgroundHover: colors.gray50,
   backgroundPress: colors.gray100,
   backgroundFocus: colors.gray100,

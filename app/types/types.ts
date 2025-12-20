@@ -11,6 +11,7 @@ export interface Profile {
   role?: "user" | "moderator" | "admin"; // text with default 'user'
   created_at?: string; // timestamptz, default now()
   updated_at?: string; // timestamptz, default now()
+  points?: number; // integer, default 0
 
   // Optional fields
   phone_number?: string | null;
