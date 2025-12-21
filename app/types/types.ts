@@ -34,3 +34,20 @@ export interface Category {
   created_at?: string; // timestamptz, default: now()
   updated_at?: string; // timestamptz, default: now()
 }
+
+export interface Service {
+  id: string; // uuid
+  name: string;
+  description: string | null;
+
+  icon_url: string | null;
+  image_url: string | null;
+
+  category_id: string;
+
+  is_active: boolean;
+  is_deleted: boolean;
+
+  created_at: string; // ISO date
+  updated_at: string; // ISO date
+}

@@ -54,6 +54,9 @@ const DiscoverNewTrips = () => {
             name={cat.name}
             icon_url={cat.icon_url}
             isMore={cat.isMore}
+            onPress={() => {
+              console.log(cat.id);
+            }}
           />
         ))}
       </XStack>
