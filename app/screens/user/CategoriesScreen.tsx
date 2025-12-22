@@ -1,12 +1,12 @@
-import useCategories from "@/app/features/categories/hooks/useCategories";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { H3, ScrollView, SizableText, XStack, YStack } from "tamagui";
-import { useTheme } from "tamagui";
+import Error from "@/app/components/Error";
+import Loader from "@/app/components/Loader";
 import CategoryCard from "@/app/features/categories/components/CategoryCard";
+import useCategories from "@/app/features/categories/hooks/useCategories";
+import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
-import Loader from "@/app/components/Loader";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { H3, ScrollView, useTheme, XStack } from "tamagui";
 
 type CategoriesScreenNavigationProp = NativeStackNavigationProp<
   CategoriesStackParamList,
@@ -14,21 +14,22 @@ type CategoriesScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 const CategoriesScreen = () => {
-  const { data, isLoading, isError } = useCategories().getCategoriesQuery();
+  const { data, isLoading, isError, refetch } =
+    useCategories().getCategoriesQuery();
   const navigation = useNavigation<CategoriesScreenNavigationProp>();
   const theme = useTheme();
 
+  const handleRetry = () => {
+    refetch();
+  };
+
   if (isLoading) {
-    return (
-      <Loader message="جاري تحميل الفئات..." />
-    );
+    return <Loader message="جاري تحميل الفئات..." />;
   }
 
   if (isError) {
     return (
-      <YStack flex={1} pt="$4" alignItems="center" justifyContent="center">
-        <SizableText color="$red800">حدث خطأ أثناء تحميل الفئات.</SizableText>
-      </YStack>
+      <Error message="حدث خطأ أثناء تحميل الفئات." onClick={handleRetry} />
     );
   }
 
@@ -49,7 +50,6 @@ const CategoriesScreen = () => {
               key={category.id}
               name={category.name}
               icon_url={category.icon_url}
-              isMore={category.isMore}
               onPress={() => {
                 navigation.navigate("CategoryServices", {
                   categoryId: category.id,

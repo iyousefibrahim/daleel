@@ -4,7 +4,11 @@ import { useTheme, XStack } from "tamagui";
 const Notifications = () => {
   const theme = useTheme();
   return (
-    <XStack>
+    <XStack
+      onPress={() => {
+        console.log("Notifications clicked");
+      }}
+    >
       <Ionicons
         name="notifications-outline"
         size={30}

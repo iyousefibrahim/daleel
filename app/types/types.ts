@@ -3,6 +3,13 @@ export type AuthStackParamList = {
   Register: undefined;
 };
 
+export type AuthenticatedNavigatorParamList = {
+  Home: undefined;
+  Services: undefined;
+  MyTrips: undefined;
+  Profile: undefined;
+};
+
 export interface Profile {
   id: string; // uuid, default: gen_random_uuid()
   email: string | null; // text, nullable

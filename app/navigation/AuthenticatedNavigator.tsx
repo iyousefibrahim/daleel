@@ -6,8 +6,9 @@ import { Fontisto, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "tamagui";
 import { cairoFont } from "../constants/tamagui.config";
 import CategoriesStackNavigator from "./CategoriesStackNavigator";
+import { type AuthenticatedNavigatorParamList } from "../types/types";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<AuthenticatedNavigatorParamList>();
 
 export default function AuthenticatedNavigator() {
   const theme = useTheme();
@@ -44,7 +45,7 @@ export default function AuthenticatedNavigator() {
             <MaterialIcons name="home" size={size} color={color} />
           ),
         }}
-        name="الرئيسية"
+        name="Home"
         component={HomeScreen}
       />
       <Tab.Screen
@@ -54,7 +55,7 @@ export default function AuthenticatedNavigator() {
             <Ionicons name="grid-outline" size={size} color={color} />
           ),
         }}
-        name="الخدمات"
+        name="Services"
         component={CategoriesStackNavigator}
       />
       <Tab.Screen
@@ -64,7 +65,7 @@ export default function AuthenticatedNavigator() {
             <Fontisto name="bookmark" size={size} color={color} />
           ),
         }}
-        name="مشاويري"
+        name="MyTrips"
         component={MyTripsScreen}
       />
       <Tab.Screen
@@ -74,7 +75,7 @@ export default function AuthenticatedNavigator() {
             <MaterialIcons name="person" size={size} color={color} />
           ),
         }}
-        name="الملف الشخصي"
+        name="Profile"
         component={Profile}
       />
     </Tab.Navigator>

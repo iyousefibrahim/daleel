@@ -1,4 +1,4 @@
-import { ScrollView, XStack, YStack } from "tamagui";
+import { ScrollView, XStack } from "tamagui";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HomeWelcome from "@/app/components/HomeWelcome";
 import Notifications from "@/app/components/Notifications";
@@ -25,13 +25,6 @@ const HomeScreen = () => {
 
         <Search />
         <CurrentTasks />
-
-        {/* Divider */}
-        <XStack gap="$4" alignItems="center">
-          <YStack f={1} h={1} bg="$gray300" />
-          <YStack f={1} h={1} bg="$gray300" />
-        </XStack>
-
         <DiscoverNewTrips />
       </ScrollView>
     </SafeAreaView>

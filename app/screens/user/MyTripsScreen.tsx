@@ -1,10 +1,15 @@
-import { View, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { H3, ScrollView } from "tamagui";
 
 const MyTripsScreen = () => {
   return (
-    <View>
-      <Text>MyTripsScreen</Text>
-    </View>
+    <SafeAreaView>
+      <ScrollView>
+        <H3 textAlign="left" lineHeight={40}>
+          مشاويري
+        </H3>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

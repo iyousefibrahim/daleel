@@ -1,17 +1,18 @@
-import {
-  H4,
-  XStack,
-  YStack,
-  Button,
-  SizableText,
-  Paragraph,
-} from "tamagui";
+import { H4, XStack, YStack, Button, SizableText, Paragraph } from "tamagui";
 import CircularProgressRing from "./CircularProgressRing";
+import { useNavigation } from "@react-navigation/native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { type AuthenticatedNavigatorParamList } from "../types/types";
+
+type NavigationProp = BottomTabNavigationProp<
+  AuthenticatedNavigatorParamList,
+  "Home"
+>;
 
 const CurrentTasks = () => {
+  const navigation = useNavigation<NavigationProp>();
   const handleShowAll = () => {
-    // Placeholder for show all action
-    console.log("إظهار كل المشاوير");
+    navigation.navigate("MyTrips");
   };
 
   return (
@@ -25,7 +26,7 @@ const CurrentTasks = () => {
         <H4
           fontFamily="$heading"
           color="$gray700"
-          fontSize="$5"
+          fontSize="$6"
           fontWeight="700"
         >
           مشاويري الحالية

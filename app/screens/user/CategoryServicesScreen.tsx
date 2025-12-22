@@ -1,4 +1,4 @@
-import { YStack, H2, ScrollView, Spinner, Paragraph, useTheme } from "tamagui";
+import { YStack, H2, ScrollView, Paragraph, useTheme } from "tamagui";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import useServices from "@/app/features/services/hooks/useServices";
@@ -7,6 +7,7 @@ import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNaviga
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "@/app/components/BackButton";
 import Loader from "@/app/components/Loader";
+import Error from "@/app/components/Error";
 
 type CategoriesStackNavProp = NativeStackNavigationProp<
   CategoriesStackParamList,
@@ -17,36 +18,22 @@ const CategoryServicesScreen = () => {
   const route = useRoute();
   const { categoryId } = route.params as { categoryId: string };
   const { getServicesByCategoryIdQuery } = useServices();
-  const { data, isLoading, isError } = getServicesByCategoryIdQuery(categoryId);
+  const { data, isLoading, isError, refetch } =
+    getServicesByCategoryIdQuery(categoryId);
   const navigator = useNavigation<CategoriesStackNavProp>();
   const theme = useTheme();
 
+  const handleRetry = () => {
+    refetch();
+  };
+
   if (isLoading) {
-    return (
-      <Loader message="جاري تحميل الخدمات..." />
-    );
+    return <Loader message="جاري تحميل الخدمات..." />;
   }
 
   if (isError) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
-        <YStack
-          f={1}
-          alignItems="center"
-          justifyContent="center"
-          bg="$background"
-          p="$6"
-        >
-          <Paragraph
-            textAlign="center"
-            color="$error"
-            fontFamily="$body"
-            size="$5"
-          >
-            حدث خطأ أثناء تحميل الخدمات
-          </Paragraph>
-        </YStack>
-      </SafeAreaView>
+      <Error message="حدث خطأ أثناء تحميل الخدمات." onClick={handleRetry} />
     );
   }
 

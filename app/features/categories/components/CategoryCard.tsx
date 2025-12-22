@@ -1,6 +1,6 @@
-import { YStack, SizableText, useTheme } from "tamagui";
-import { Entypo } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Image } from "react-native";
+import { SizableText, useTheme, YStack } from "tamagui";
 
 interface CategoryCardProps {
   name: string;
@@ -9,44 +9,55 @@ interface CategoryCardProps {
   onPress?: () => void;
 }
 
-const CategoryCard = ({ name, icon_url, isMore, onPress }: CategoryCardProps) => {
+const CategoryCard = ({
+  name,
+  icon_url,
+  isMore,
+  onPress,
+}: CategoryCardProps) => {
   const theme = useTheme();
-  const iconBg = theme.gray100.val;
 
   return (
     <YStack
       width="32%"
       aspectRatio={1}
       backgroundColor="$background"
-      borderRadius="$4"
+      borderRadius="$5"
+      borderWidth={1}
+      borderColor="$gray4"
       alignItems="center"
       justifyContent="center"
       padding="$3"
       shadowColor="$shadowColor"
-      shadowOpacity={0.05}
-      shadowRadius={4}
-      elevation={1}
+      shadowOpacity={0.08}
+      shadowRadius={8}
+      shadowOffset={{ width: 0, height: 2 }}
+      elevation={2}
       onPress={onPress}
+      pressStyle={{
+        opacity: 0.9,
+        borderColor: "$primary500",
+      }}
     >
       <YStack
-        width={56}
-        height={56}
-        borderRadius={28}
-        backgroundColor={iconBg}
+        width={60}
+        height={60}
+        borderRadius={30}
+        backgroundColor="$gray200"
         alignItems="center"
         justifyContent="center"
         mb="$3"
       >
         {isMore ? (
-          <Entypo
-            name="dots-three-horizontal"
-            size={26}
-            color={theme.gray600.val}
+          <MaterialIcons
+            name="more-horiz"
+            size={32}
+            color={theme.primary500.get()}
           />
         ) : (
           <Image
             source={{ uri: icon_url }}
-            style={{ width: 30, height: 30 }}
+            style={{ width: 34, height: 34 }}
             resizeMode="contain"
           />
         )}
@@ -54,11 +65,12 @@ const CategoryCard = ({ name, icon_url, isMore, onPress }: CategoryCardProps) =>
 
       <SizableText
         fontFamily="$body"
-        color="$gray900"
+        color="$gray12"
         fontSize="$3"
         fontWeight="600"
         textAlign="center"
         numberOfLines={2}
+        lineHeight="$1"
       >
         {name}
       </SizableText>

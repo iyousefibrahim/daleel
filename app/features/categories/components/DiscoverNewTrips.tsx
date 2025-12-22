@@ -1,27 +1,31 @@
-import { H4, XStack, YStack, SizableText, useTheme } from "tamagui";
+import Loader from "@/app/components/Loader";
+import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { H4, XStack, YStack } from "tamagui";
 import useCategories from "../hooks/useCategories";
 import CategoryCard from "./CategoryCard";
-import Loader from "@/app/components/Loader";
+import Error from "@/app/components/Error";
 
 const DiscoverNewTrips = () => {
-  const theme = useTheme();
-  const { data, isLoading, isError } = useCategories().getCategoriesQuery(5);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<CategoriesStackParamList>>();
+  const { data, isLoading, isError, refetch } =
+    useCategories().getCategoriesQuery(5);
+
+  const handleRetry = () => {
+    refetch();
+  };
 
   if (isLoading) {
-    return (
-      <Loader message="جاري تحميل الفئات..." />
-    );
+    return <Loader message="جاري تحميل الفئات..." />;
   }
 
   if (isError) {
     return (
-      <YStack flex={1} pt="$4" alignItems="center" justifyContent="center">
-        <SizableText color="$red800">حدث خطأ أثناء تحميل الفئات.</SizableText>
-      </YStack>
+      <Error message="حدث خطأ أثناء تحميل الفئات." onClick={handleRetry} />
     );
   }
-
-  const iconBg = theme.gray100.val;
 
   // Add "more" item to the end of the data array
   const itemsToRender = [
@@ -36,7 +40,7 @@ const DiscoverNewTrips = () => {
         color="$gray700"
         fontSize="$6"
         fontWeight="700"
-        mb="$4"
+        pb={'$4'}
       >
         اكتشف مشاوير جديدة
       </H4>
@@ -54,7 +58,17 @@ const DiscoverNewTrips = () => {
             icon_url={cat.icon_url}
             isMore={cat.isMore}
             onPress={() => {
-              console.log(cat.id);
+              const nav = navigation as any;
+              if (cat.isMore) {
+                nav.navigate("Services", {
+                  screen: "CategoriesList",
+                });
+              } else {
+                nav.navigate("Services", {
+                  screen: "CategoryServices",
+                  params: { categoryId: cat.id },
+                });
+              }
             }}
           />
         ))}
