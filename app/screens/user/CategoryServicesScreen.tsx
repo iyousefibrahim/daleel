@@ -6,6 +6,7 @@ import ServiceCard from "@/app/features/services/components/ServiceCard";
 import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "@/app/components/BackButton";
+import Loader from "@/app/components/Loader";
 
 type CategoriesStackNavProp = NativeStackNavigationProp<
   CategoriesStackParamList,
@@ -22,19 +23,7 @@ const CategoryServicesScreen = () => {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
-        <YStack
-          f={1}
-          alignItems="center"
-          justifyContent="center"
-          bg="$background"
-        >
-          <Spinner size="large" color="$primary" />
-          <Paragraph mt="$4" color="$gray600" fontFamily="$body">
-            جاري تحميل الخدمات...
-          </Paragraph>
-        </YStack>
-      </SafeAreaView>
+      <Loader message="جاري تحميل الخدمات..." />
     );
   }
 

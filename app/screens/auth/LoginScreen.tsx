@@ -1,11 +1,11 @@
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { YStack } from "tamagui";
-import { Text } from "@/app/components/Text";
+import { H2, YStack } from "tamagui";
 import { AuthStackParamList } from "@/app/types/types";
 import { useTheme } from "@tamagui/core";
 import UserLoginForm from "@/app/features/auth/components/UserLoginForm";
+import { Paragraph } from "tamagui";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -24,8 +24,6 @@ const LoginScreen = ({ navigation }: Props) => {
       style={{
         flex: 1,
         backgroundColor: theme.background.get(),
-        justifyContent: "center",
-        height: "100%",
       }}
     >
       <ScrollView
@@ -36,22 +34,22 @@ const LoginScreen = ({ navigation }: Props) => {
           justifyContent: "center",
         }}
       >
-        <YStack px="$5">
+        <YStack>
           {/* Header */}
-          <YStack mb="$8" mt="$4">
-            <Text
+          <YStack pb="$8">
+            <H2
               fontSize={30}
               fontWeight="700"
               mb="$3"
-              lineHeight={35}
+              lineHeight={39}
               width="100%"
               textAlign="left"
             >
               تسجيل الدخول
-            </Text>
-            <Text fontSize={16} width="100%" textAlign="left">
+            </H2>
+            <Paragraph fontSize={16} width="100%" textAlign="left">
               أهلاً بعودتك! سجل الدخول للمتابعة
-            </Text>
+            </Paragraph>
           </YStack>
 
           <UserLoginForm navigation={navigation} />

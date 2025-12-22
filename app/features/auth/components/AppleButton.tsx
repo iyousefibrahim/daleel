@@ -1,8 +1,7 @@
 import { Platform } from "react-native";
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
-import { Button } from "tamagui";
-import { Text } from "@/app/components/Text";
+import { Button, Paragraph } from "tamagui";
 
 const AppleButton = ({
   onPress,
@@ -25,7 +24,7 @@ const AppleButton = ({
         textAlign="left"
         pressStyle={{ opacity: 0.8 }}
       >
-        <Text
+        <Paragraph
           textAlign="left"
           ml="$3"
           fontSize={16}
@@ -33,7 +32,7 @@ const AppleButton = ({
           color="white"
         >
           {title}
-        </Text>
+        </Paragraph>
         <FontAwesome textAlign="left" name="apple" size={24} color="white" />
       </Button>
     )

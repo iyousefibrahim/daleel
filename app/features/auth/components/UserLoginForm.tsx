@@ -1,4 +1,4 @@
-import { Button, Input, XStack, YStack } from "tamagui";
+import { Button, Input, Paragraph, XStack, YStack } from "tamagui";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
@@ -6,13 +6,13 @@ import { loginSchema } from "../validators/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Toast from "react-native-toast-message";
 import z from "zod";
-import { Text } from "@/app/components/Text";
 import { Entypo } from "@expo/vector-icons";
 
 import { AuthStackParamList } from "@/app/types/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import GoogleButton from "./GoogleButton";
 import AppleButton from "./AppleButton";
+import Divider from "./Divider";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -103,9 +103,14 @@ const UserLoginForm = ({ navigation }: Props) => {
     <YStack gap="$4">
       {/* Email */}
       <YStack gap="$1">
-        <Text textAlign="left" fontSize={16} lineHeight={25} fontWeight="600">
+        <Paragraph
+          textAlign="left"
+          fontSize={16}
+          lineHeight={25}
+          fontWeight="600"
+        >
           البريد الإلكتروني
-        </Text>
+        </Paragraph>
         <Controller
           control={control}
           name="email"
@@ -133,18 +138,18 @@ const UserLoginForm = ({ navigation }: Props) => {
           )}
         />
         {errors.email && (
-          <Text textAlign="right" fontSize={12} color="red">
+          <Paragraph textAlign="right" fontSize={12} color="red">
             {errors.email.message}
-          </Text>
+          </Paragraph>
         )}
       </YStack>
 
       {/* Password */}
       <YStack gap="$1" position="relative">
         <XStack justifyContent="space-between" alignItems="center">
-          <Text textAlign="left" fontSize={16} fontWeight="600">
+          <Paragraph textAlign="left" fontSize={16} fontWeight="600">
             كلمة المرور
-          </Text>
+          </Paragraph>
         </XStack>
 
         <YStack position="relative">
@@ -198,9 +203,9 @@ const UserLoginForm = ({ navigation }: Props) => {
         </YStack>
 
         {errors.password && (
-          <Text textAlign="right" color="red" fontSize={12}>
+          <Paragraph textAlign="right" color="red" fontSize={12}>
             {errors.password.message}
-          </Text>
+          </Paragraph>
         )}
       </YStack>
 
@@ -211,9 +216,9 @@ const UserLoginForm = ({ navigation }: Props) => {
           unstyled
           pressStyle={{ opacity: 0.7 }}
         >
-          <Text fontSize={14} fontWeight="600" color="$primary500">
+          <Paragraph fontSize={14} fontWeight="600" color="$primary500">
             نسيت كلمة المرور؟
-          </Text>
+          </Paragraph>
         </Button>
       </XStack>
 
@@ -227,17 +232,13 @@ const UserLoginForm = ({ navigation }: Props) => {
         pressStyle={{ bg: "$primary700", scale: 0.98 }}
         disabledStyle={{ bg: "$primary200", opacity: 0.6 }}
       >
-        <Text color="white" fontWeight="600" pointerEvents="none">
+        <Paragraph color="white" fontWeight="600" pointerEvents="none">
           {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
-        </Text>
+        </Paragraph>
       </Button>
 
       {/* Divider */}
-      <XStack gap="$4" alignItems="center">
-        <YStack f={1} h={1} bg="$gray300" />
-        <Text fontSize={14}>أو</Text>
-        <YStack f={1} h={1} bg="$gray300" />
-      </XStack>
+      <Divider title="أو" />
 
       <GoogleButton
         onPress={handleGoogleLogin}
@@ -252,15 +253,15 @@ const UserLoginForm = ({ navigation }: Props) => {
 
       {/* Register Link */}
       <XStack gap="$1" alignItems="center" justifyContent="center">
-        <Text fontSize={14}>ليس لديك حساب؟</Text>
+        <Paragraph fontSize={14}>ليس لديك حساب؟</Paragraph>
         <Button
           onPress={() => navigation.navigate("Register")}
           unstyled
           pressStyle={{ opacity: 0.7 }}
         >
-          <Text fontSize={14} fontWeight="700">
+          <Paragraph fontSize={14} fontWeight="700">
             إنشاء حساب
-          </Text>
+          </Paragraph>
         </Button>
       </XStack>
     </YStack>

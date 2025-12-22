@@ -14,7 +14,8 @@ export const getServiceById = async (id: string) => {
   const { data, error } = await supabase
     .from("services")
     .select("*")
-    .eq("id", id);
+    .eq("id", id)
+    .single();
 
   if (error) {
     throw error;
@@ -28,6 +29,7 @@ export const getServicesByCategoryId = async (category_id: string) => {
     .from("services")
     .select("*")
     .eq("category_id", category_id);
+    
 
   if (error) {
     throw error;

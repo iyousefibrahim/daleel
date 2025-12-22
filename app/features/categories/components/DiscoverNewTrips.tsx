@@ -1,6 +1,7 @@
 import { H4, XStack, YStack, SizableText, useTheme } from "tamagui";
 import useCategories from "../hooks/useCategories";
 import CategoryCard from "./CategoryCard";
+import Loader from "@/app/components/Loader";
 
 const DiscoverNewTrips = () => {
   const theme = useTheme();
@@ -8,9 +9,7 @@ const DiscoverNewTrips = () => {
 
   if (isLoading) {
     return (
-      <YStack flex={1} pt="$4" alignItems="center" justifyContent="center">
-        <SizableText color="$gray500">جاري تحميل الفئات...</SizableText>
-      </YStack>
+      <Loader message="جاري تحميل الفئات..." />
     );
   }
 

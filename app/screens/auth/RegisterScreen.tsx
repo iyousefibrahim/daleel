@@ -1,8 +1,7 @@
 import { Platform, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { YStack } from "tamagui";
-import { Text } from "@/app/components/Text";
+import { H2, YStack } from "tamagui";
 import { AuthStackParamList } from "@/app/types/types";
 import { useTheme } from "@tamagui/core";
 import UserRegisterForm from "@/app/features/auth/components/UserRegisterForm";
@@ -24,23 +23,20 @@ const RegisterScreen = ({ navigation }: Props) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ justifyContent: "center", flex: 1 }}
       >
-        <YStack px="$5" py={Platform.OS === "ios" ? "$0" : "$5"}>
+        <YStack py={Platform.OS === "ios" ? "$0" : "$5"}>
           {/* Header */}
-          <YStack mb="$8">
-            <Text
+          <YStack pb="$5">
+            <H2
               fontSize={30}
               fontWeight="700"
-              mb="$3"
-              lineHeight={35}
+              lineHeight={45}
               width="100%"
               textAlign="left"
             >
               إنشاء حساب جديد
-            </Text>
-            <Text fontSize={16} width="100%" textAlign="left">
-              أدخل بياناتك للبدء
-            </Text>
+            </H2>
           </YStack>
           <UserRegisterForm navigation={navigation} />
         </YStack>

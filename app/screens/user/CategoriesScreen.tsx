@@ -6,6 +6,7 @@ import CategoryCard from "@/app/features/categories/components/CategoryCard";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
+import Loader from "@/app/components/Loader";
 
 type CategoriesScreenNavigationProp = NativeStackNavigationProp<
   CategoriesStackParamList,
@@ -19,9 +20,7 @@ const CategoriesScreen = () => {
 
   if (isLoading) {
     return (
-      <YStack flex={1} pt="$4" alignItems="center" justifyContent="center">
-        <SizableText color="$gray500">جاري تحميل الفئات...</SizableText>
-      </YStack>
+      <Loader message="جاري تحميل الفئات..." />
     );
   }
 

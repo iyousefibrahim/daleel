@@ -3,6 +3,7 @@ import AuthNavigator from "./AuthNavigator";
 import AuthenticatedNavigator from "./AuthenticatedNavigator";
 import useAuth from "../features/auth/hooks/useAuth";
 import useAuthListener from "../features/auth/hooks/useAuthListener";
+import Loader from "../components/Loader";
 
 const Stack = createNativeStackNavigator();
 
@@ -10,7 +11,7 @@ export default function RootNavigator() {
   const ready = useAuthListener();
   const { userSession } = useAuth();
 
-  if (!ready) return null; // Splash screen
+  if (!ready) return <Loader message="جاري التحميل..." />;
 
   return (
     <Stack.Navigator

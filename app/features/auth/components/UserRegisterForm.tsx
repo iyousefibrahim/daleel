@@ -1,5 +1,4 @@
-import { Text } from "@/app/components/Text";
-import { Button, Input, XStack, YStack } from "tamagui";
+import { Button, Input, XStack, YStack, Paragraph } from "tamagui";
 import AppleButton from "./AppleButton";
 import GoogleButton from "./GoogleButton";
 import { Controller, useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import Toast from "react-native-toast-message";
 import { AuthStackParamList } from "@/app/types/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Entypo } from "@expo/vector-icons";
+import Divider from "./Divider";
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -86,9 +86,9 @@ const UserRegisterForm = ({ navigation }: Props) => {
       <XStack gap="$2">
         {/* First Name */}
         <YStack gap="$2" flex={1}>
-          <Text textAlign="left" fontSize={14} fontWeight="600">
+          <Paragraph textAlign="left" fontSize={14} fontWeight="600">
             الاسم الأول
-          </Text>
+          </Paragraph>
           <Controller
             control={control}
             name="first_name"
@@ -116,17 +116,17 @@ const UserRegisterForm = ({ navigation }: Props) => {
             )}
           />
           {errors.first_name && (
-            <Text textAlign="right" fontSize={12} color="red">
+            <Paragraph textAlign="right" fontSize={12} color="red">
               {errors.first_name.message}
-            </Text>
+            </Paragraph>
           )}
         </YStack>
 
         {/* Last Name */}
         <YStack gap="$2" flex={1}>
-          <Text textAlign="left" fontSize={14} fontWeight="600">
+          <Paragraph textAlign="left" fontSize={14} fontWeight="600">
             الاسم الأخير
-          </Text>
+          </Paragraph>
           <Controller
             control={control}
             name="last_name"
@@ -155,18 +155,18 @@ const UserRegisterForm = ({ navigation }: Props) => {
             )}
           />
           {errors.last_name && (
-            <Text textAlign="right" fontSize={12}>
+            <Paragraph textAlign="right" color="red" fontSize={12}>
               {errors.last_name.message}
-            </Text>
+            </Paragraph>
           )}
         </YStack>
       </XStack>
 
       {/* Username */}
       <YStack gap="$2">
-        <Text textAlign="left" fontSize={14} fontWeight="600">
+        <Paragraph textAlign="left" fontSize={14} fontWeight="600">
           اسم المستخدم
-        </Text>
+        </Paragraph>
         <Controller
           control={control}
           name="username"
@@ -192,17 +192,17 @@ const UserRegisterForm = ({ navigation }: Props) => {
           )}
         />
         {errors.username && (
-          <Text textAlign="right" fontSize={12}>
+          <Paragraph textAlign="right" fontSize={12}>
             {errors.username.message}
-          </Text>
+          </Paragraph>
         )}
       </YStack>
 
       {/* Email */}
       <YStack gap="$2">
-        <Text textAlign="left" fontSize={14} fontWeight="600">
+        <Paragraph textAlign="left" fontSize={14} fontWeight="600">
           البريد الإلكتروني
-        </Text>
+        </Paragraph>
         <Controller
           control={control}
           name="email"
@@ -230,17 +230,17 @@ const UserRegisterForm = ({ navigation }: Props) => {
           )}
         />
         {errors.email && (
-          <Text textAlign="right" fontSize={12} color={"red"}>
+          <Paragraph textAlign="right" fontSize={12} color={"red"}>
             {errors.email.message}
-          </Text>
+          </Paragraph>
         )}
       </YStack>
 
       {/* Password */}
       <YStack gap="$2" position="relative">
-        <Text textAlign="left" fontSize={14} fontWeight="600">
+        <Paragraph textAlign="left" fontSize={14} fontWeight="600">
           كلمة المرور
-        </Text>
+        </Paragraph>
 
         <YStack position="relative">
           <Controller
@@ -293,13 +293,13 @@ const UserRegisterForm = ({ navigation }: Props) => {
         </YStack>
 
         {errors.password && (
-          <Text textAlign="right" color="red" fontSize={12}>
+          <Paragraph textAlign="right" color="red" fontSize={12}>
             {errors.password.message}
-          </Text>
+          </Paragraph>
         )}
-        <Text textAlign="right" fontSize={12} color="$gray500">
+        <Paragraph textAlign="right" fontSize={12} color="$gray500">
           يجب أن تحتوي على 6 أحرف على الأقل
-        </Text>
+        </Paragraph>
       </YStack>
 
       {/* Register Button */}
@@ -312,17 +312,13 @@ const UserRegisterForm = ({ navigation }: Props) => {
         pressStyle={{ bg: "$primary700", scale: 0.98 }}
         disabledStyle={{ bg: "$primary200", opacity: 0.6 }}
       >
-        <Text color="white" fontWeight="600" pointerEvents="none">
+        <Paragraph color="white" fontWeight="600" pointerEvents="none">
           {isLoading ? "جاري التسجيل..." : "إنشاء حساب"}
-        </Text>
+        </Paragraph>
       </Button>
 
       {/* Divider */}
-      <XStack gap="$4" alignItems="center">
-        <YStack f={1} h={1} bg="$gray300" />
-        <Text fontSize={14}>أو</Text>
-        <YStack f={1} h={1} bg="$gray300" />
-      </XStack>
+      <Divider title="أو" />
 
       <GoogleButton
         onPress={handleGoogleRegister}
@@ -333,15 +329,15 @@ const UserRegisterForm = ({ navigation }: Props) => {
 
       {/* Login Link */}
       <XStack gap="$1" alignItems="center" justifyContent="center">
-        <Text fontSize={14}>لديك حساب بالفعل؟</Text>
+        <Paragraph fontSize={14}>لديك حساب بالفعل؟</Paragraph>
         <Button
           onPress={() => navigation.navigate("Login")}
           unstyled
           pressStyle={{ opacity: 0.7 }}
         >
-          <Text fontSize={14} fontWeight="700">
+          <Paragraph fontSize={14} fontWeight="700">
             تسجيل الدخول
-          </Text>
+          </Paragraph>
         </Button>
       </XStack>
     </YStack>
