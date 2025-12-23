@@ -54,6 +54,10 @@ export default function AuthenticatedNavigator() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="grid-outline" size={size} color={color} />
           ),
+          sceneStyle: {
+            paddingEnd: 0,
+            paddingStart: 0,
+          },
         }}
         name="Services"
         component={CategoriesStackNavigator}

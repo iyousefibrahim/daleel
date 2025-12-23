@@ -58,3 +58,21 @@ export interface Service {
   created_at: string; // ISO date
   updated_at: string; // ISO date
 }
+
+export interface ServiceStep {
+  id: string;
+  service_id: string;
+  step_number: number;
+  title: string;
+  description?: string;
+  created_at: string; // ISO Date string
+  updated_at: string; // ISO Date string
+}
+
+export interface ServiceRequirement {
+  id: string;
+  title: string;
+  notes?: string;
+  icon_url: string;
+  background_color: string;
+}

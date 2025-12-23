@@ -1,5 +1,6 @@
 import Error from "@/app/components/Error";
 import Loader from "@/app/components/Loader";
+import Search from "@/app/components/Search";
 import CategoryCard from "@/app/features/categories/components/CategoryCard";
 import useCategories from "@/app/features/categories/hooks/useCategories";
 import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
@@ -44,6 +45,7 @@ const CategoriesScreen = () => {
         <H3 textAlign="left" pb="$4">
           كل الخدمات
         </H3>
+        <Search placeholder="إبحث عن خدمات" />
         <XStack gap="$1" flexWrap="wrap">
           {data?.map((category) => (
             <CategoryCard

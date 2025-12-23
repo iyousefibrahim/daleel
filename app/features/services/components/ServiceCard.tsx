@@ -1,5 +1,4 @@
 import { Service } from "@/app/types/types";
-import React from "react";
 import { Card, H4, Paragraph, XStack, YStack, Image } from "tamagui";
 
 const ServiceCard = ({

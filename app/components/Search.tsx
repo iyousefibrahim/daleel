@@ -2,7 +2,7 @@ import { Input, XStack } from "tamagui";
 import { Feather } from "@expo/vector-icons";
 import { colors } from "@/app/constants/tamagui.config";
 
-const Search = () => {
+const Search = ({ placeholder }: { placeholder: string }) => {
   return (
     <XStack
       width="100%"
@@ -24,7 +24,7 @@ const Search = () => {
 
       <Input
         flex={1}
-        placeholder="اكتب مشوارك تجديد بطاقة رخصة، قيد عائلي"
+        placeholder={placeholder}
         placeholderTextColor="$gray500"
         autoCapitalize="none"
         bg="transparent"

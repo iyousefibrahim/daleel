@@ -23,7 +23,7 @@ const HomeScreen = () => {
           <Notifications />
         </XStack>
 
-        <Search />
+        <Search placeholder="إكتب مشوارك, تجديد بطاقة, قيد عائلي" />
         <CurrentTasks />
         <DiscoverNewTrips />
       </ScrollView>
