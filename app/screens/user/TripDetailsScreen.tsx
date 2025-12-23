@@ -14,7 +14,7 @@ import {
 import BackButton from "../../components/BackButton";
 import { colors } from "../../constants/tamagui.config";
 
-interface Requirement {
+interface Trip {
   id: string;
   title: string;
   subtitle?: string;
@@ -36,7 +36,7 @@ interface Requirement {
   };
 }
 
-const requirements: Requirement[] = [
+const trips: Trip[] = [
   {
     id: "1",
     title: "1. أصل شهادة الميلاد",
@@ -146,7 +146,7 @@ export default function TripDetailsScreen() {
           width="100%"
           gap="$3"
         >
-          {requirements.map((req) => {
+          {trips.map((req) => {
             if (req.isHeader) {
               return (
                 <Paragraph

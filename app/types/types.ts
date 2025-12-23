@@ -83,6 +83,7 @@ export type TripStatus = "in_progress" | "completed" | "cancelled";
 export interface Trip {
   id: string; // UUID, primary key
   service_id: string; // UUID, FK to public.services.id
+  service_name: string;
   user_id: string; // UUID, FK to public.profiles.id
   status: TripStatus; // Enum (trip_status)
 

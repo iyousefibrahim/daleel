@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getAllServices,
   getServiceById,
@@ -15,6 +15,8 @@ import {
 } from "@/app/types/types";
 
 const useServices = () => {
+  const queryClient = useQueryClient();
+
   const getAllServicesQuery = () =>
     useQuery<Service[]>({
       queryKey: ["services", "all"],
@@ -56,6 +58,11 @@ const useServices = () => {
   >({
     mutationKey: ["service", "start"],
     mutationFn: ({ serviceId, userId }) => startService(serviceId, userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["trips", "all"],
+      });
+    },
   });
 
   return {

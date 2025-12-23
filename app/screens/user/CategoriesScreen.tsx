@@ -7,7 +7,7 @@ import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNaviga
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { H3, ScrollView, useTheme, XStack } from "tamagui";
+import { H3, Paragraph, ScrollView, useTheme, XStack, YStack } from "tamagui";
 
 type CategoriesScreenNavigationProp = NativeStackNavigationProp<
   CategoriesStackParamList,
@@ -42,10 +42,30 @@ const CategoriesScreen = () => {
         bounces={false}
         keyboardDismissMode="on-drag"
       >
-        <H3 textAlign="left" pb="$4">
-          كل الخدمات
-        </H3>
-        <Search placeholder="إبحث عن خدمات" />
+        <YStack px="$4" pb="$3">
+          <H3
+            fontFamily="$heading"
+            color="$gray900"
+            fontSize="$8"
+            fontWeight="700"
+            marginBottom="$2"
+            textAlign="left"
+          >
+            كل الخدمات
+          </H3>
+          <Paragraph
+            textAlign="left"
+            fontFamily="$body"
+            color="$gray600"
+            fontSize="$4"
+          >
+            جميع الخدمات المتاحة في دليل
+          </Paragraph>
+        </YStack>
+
+        <XStack px="$2">
+          <Search placeholder="إبحث عن خدمات" />
+        </XStack>
         <XStack gap="$1" flexWrap="wrap">
           {data?.map((category) => (
             <CategoryCard

@@ -74,12 +74,24 @@ export const getServiceRequirements = async (service_steps_id: string) => {
  * @throws Throws an error if any step of the process fails
  */
 export const startService = async (service_id: string, user_id: string) => {
-  // 1. Create a new trip
+  // 1. Fetch service name
+  const { data: serviceData, error: serviceError } = await supabase
+    .from("services")
+    .select("*")
+    .eq("id", service_id)
+    .single();
+
+  if (serviceError) {
+    throw serviceError;
+  }
+
+  // 2. Create a new trip
   const { data: tripData, error: tripError } = await supabase
     .from("trips")
     .insert({
       user_id,
       service_id,
+      service_name: serviceData.name,
       status: "in_progress",
     })
     .select(); // Select to get inserted row
