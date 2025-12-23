@@ -2,7 +2,7 @@ import { colors } from "@/app/constants/tamagui.config";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Paragraph, XStack, YStack } from "tamagui";
 
-const ServiceActionFooter = () => {
+const ServiceActionFooter = ({ onPress }: { onPress: () => void }) => {
   return (
     <YStack
       position="absolute"
@@ -20,6 +20,7 @@ const ServiceActionFooter = () => {
         backgroundColor={colors.primary500}
         borderRadius="$3"
         pressStyle={{ backgroundColor: colors.primary700, scale: 0.98 }}
+        onPress={onPress}
       >
         <XStack gap="$2" alignItems="center">
           <Paragraph size="$5" fontWeight="700" color={colors.white}>

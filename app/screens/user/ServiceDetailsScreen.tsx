@@ -1,5 +1,6 @@
 import Error from "@/app/components/Error";
 import Loader from "@/app/components/Loader";
+import useAuth from "@/app/features/auth/hooks/useAuth";
 import ServiceActionFooter from "@/app/features/services/components/ServiceActionFooter";
 import ServiceHeader from "@/app/features/services/components/ServiceHeader";
 import ServiceHero from "@/app/features/services/components/ServiceHero";
@@ -17,12 +18,12 @@ const ServiceDetailsScreen = () => {
     getServiceByIdQuery,
     getServiceStepsQuery,
     getServiceRequirementsQuery,
+    startServiceMutation,
   } = useServices();
   const { data, isLoading, isError, refetch } = getServiceByIdQuery(serviceId);
   const { data: serviceStepsData } = getServiceStepsQuery(serviceId);
+  const { userSession } = useAuth();
 
-  // Note: logic for requirements fetching based on step[0] might need verification if it's correct
-  // but preserving original logic for now.
   const { data: serviceRequirementsData } = getServiceRequirementsQuery(
     serviceStepsData?.[0]?.id || ""
   );
@@ -39,6 +40,31 @@ const ServiceDetailsScreen = () => {
       type: "success",
       text1: "تم نسخ النص",
     });
+  };
+
+  const startService = async () => {
+    startServiceMutation.mutate(
+      {
+        serviceId,
+        userId: userSession?.id || "",
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Service started successfully", data);
+          Toast.show({
+            type: "success",
+            text1: "تم بدء الخدمة",
+          });
+        },
+        onError: (error) => {
+          console.log("Error starting service", error);
+          Toast.show({
+            type: "error",
+            text1: "حدث خطأ، حاول مرة أخرى.",
+          });
+        },
+      }
+    );
   };
 
   if (isLoading) return <Loader message="جاري تحميل الخدمة..." />;
@@ -66,7 +92,7 @@ const ServiceDetailsScreen = () => {
         />
       </ScrollView>
 
-      <ServiceActionFooter />
+      <ServiceActionFooter onPress={startService} />
     </>
   );
 };

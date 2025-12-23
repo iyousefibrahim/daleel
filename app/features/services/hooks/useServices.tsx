@@ -1,12 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getAllServices,
   getServiceById,
   getServiceRequirements,
   getServicesByCategoryId,
   getServiceSteps,
+  startService,
 } from "../api/services";
-import { Service, ServiceRequirement, ServiceStep } from "@/app/types/types";
+import {
+  Service,
+  ServiceRequirement,
+  ServiceStep,
+  Trip,
+} from "@/app/types/types";
 
 const useServices = () => {
   const getAllServicesQuery = () =>
@@ -43,12 +49,22 @@ const useServices = () => {
       enabled: !!serviceStepId,
     });
 
+  const startServiceMutation = useMutation<
+    Trip,
+    Error,
+    { serviceId: string; userId: string }
+  >({
+    mutationKey: ["service", "start"],
+    mutationFn: ({ serviceId, userId }) => startService(serviceId, userId),
+  });
+
   return {
     getAllServicesQuery,
     getServiceByIdQuery,
     getServicesByCategoryIdQuery,
     getServiceStepsQuery,
     getServiceRequirementsQuery,
+    startServiceMutation,
   };
 };
 

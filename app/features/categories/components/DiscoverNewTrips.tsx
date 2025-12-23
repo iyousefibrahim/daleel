@@ -30,7 +30,7 @@ const DiscoverNewTrips = () => {
   // Add "more" item to the end of the data array
   const itemsToRender = [
     ...(data || []),
-    { id: "more", name: "المزيد", isMore: true },
+    { id: "more", name: "المزيد", is_more: true, icon_url: "" },
   ];
 
   return (
@@ -40,7 +40,8 @@ const DiscoverNewTrips = () => {
         color="$gray700"
         fontSize="$6"
         fontWeight="700"
-        pb={'$4'}
+        pb={"$4"}
+        textAlign="left"
       >
         اكتشف مشاوير جديدة
       </H4>
@@ -56,10 +57,10 @@ const DiscoverNewTrips = () => {
             key={cat.id}
             name={cat.name}
             icon_url={cat.icon_url}
-            isMore={cat.isMore}
+            is_more={cat.is_more}
             onPress={() => {
               const nav = navigation as any;
-              if (cat.isMore) {
+              if (cat.is_more) {
                 nav.navigate("Services", {
                   screen: "CategoriesList",
                 });

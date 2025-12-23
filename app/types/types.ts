@@ -37,6 +37,7 @@ export interface Category {
   description?: string | null; // text, يمكن يكون NULL
   is_active?: boolean; // default: TRUE
   is_deleted?: boolean; // default: FALSE
+  is_more?: boolean; // default: FALSE
 
   created_at?: string; // timestamptz, default: now()
   updated_at?: string; // timestamptz, default: now()
@@ -75,4 +76,18 @@ export interface ServiceRequirement {
   notes?: string;
   icon_url: string;
   background_color: string;
+}
+
+export type TripStatus = "in_progress" | "completed" | "cancelled";
+
+export interface Trip {
+  id: string; // UUID, primary key
+  service_id: string; // UUID, FK to public.services.id
+  user_id: string; // UUID, FK to public.profiles.id
+  status: TripStatus; // Enum (trip_status)
+
+  // Optional fields
+  completion_percentage?: number; // smallint, default 0
+  created_at?: string; // timestamptz, default now()
+  updated_at?: string; // timestamptz, default now()
 }

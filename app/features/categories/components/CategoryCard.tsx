@@ -4,15 +4,15 @@ import { SizableText, useTheme, YStack } from "tamagui";
 
 interface CategoryCardProps {
   name: string;
-  icon_url?: string;
-  isMore?: boolean;
+  icon_url: string;
+  is_more?: boolean;
   onPress?: () => void;
 }
 
 const CategoryCard = ({
   name,
   icon_url,
-  isMore,
+  is_more,
   onPress,
 }: CategoryCardProps) => {
   const theme = useTheme();
@@ -48,7 +48,7 @@ const CategoryCard = ({
         justifyContent="center"
         mb="$3"
       >
-        {isMore ? (
+        {is_more ? (
           <MaterialIcons
             name="more-horiz"
             size={32}
