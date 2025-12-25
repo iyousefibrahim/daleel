@@ -67,22 +67,32 @@ export const getServiceRequirements = async (service_steps_id: string) => {
 /**
  * Starts a service for a given user by creating a trip,
  * inserting all service steps, and their associated requirements.
+ * OPTIMIZED: Uses bulk inserts and parallel queries to minimize database round trips.
  *
  * @param service_id - ID of the service to start
  * @param user_id - ID of the user starting the service
+ * @param service_name - Optional service name (if already fetched, avoids redundant query)
  * @returns The created trip object
  * @throws Throws an error if any step of the process fails
  */
-export const startService = async (service_id: string, user_id: string) => {
-  // 1. Fetch service name
-  const { data: serviceData, error: serviceError } = await supabase
-    .from("services")
-    .select("*")
-    .eq("id", service_id)
-    .single();
+export const startService = async (
+  service_id: string,
+  user_id: string,
+  service_name?: string
+) => {
+  // 1. Fetch service name only if not provided
+  let serviceName = service_name;
+  if (!serviceName) {
+    const { data: serviceData, error: serviceError } = await supabase
+      .from("services")
+      .select("name")
+      .eq("id", service_id)
+      .single();
 
-  if (serviceError) {
-    throw serviceError;
+    if (serviceError) {
+      throw serviceError;
+    }
+    serviceName = serviceData.name;
   }
 
   // 2. Create a new trip
@@ -91,10 +101,10 @@ export const startService = async (service_id: string, user_id: string) => {
     .insert({
       user_id,
       service_id,
-      service_name: serviceData.name,
+      service_name: serviceName,
       status: "in_progress",
     })
-    .select(); // Select to get inserted row
+    .select();
 
   if (tripError || !tripData?.[0]) {
     console.error("Failed to create trip:", tripError);
@@ -103,11 +113,12 @@ export const startService = async (service_id: string, user_id: string) => {
 
   const trip = tripData[0];
 
-  // 2. Fetch all steps for the service
+  // 3. Fetch all steps for the service
   const { data: serviceSteps, error: serviceStepsError } = await supabase
     .from("service_steps")
     .select("*")
-    .eq("service_id", service_id);
+    .eq("service_id", service_id)
+    .order("step_number", { ascending: true });
 
   if (serviceStepsError) {
     console.error("Failed to fetch service steps:", serviceStepsError);
@@ -118,58 +129,66 @@ export const startService = async (service_id: string, user_id: string) => {
     throw new Error("No steps found for this service");
   }
 
-  // 3. For each step, insert it into trip_steps and its requirements into trip_steps_requirements
-  for (const step of serviceSteps) {
-    // 3a. Insert step into trip_steps
-    const { data: tripStepData, error: tripStepError } = await supabase
-      .from("trip_steps")
-      .insert({
-        trip_id: trip.id,
-        step_number: step.step_number,
-        title: step.title,
-        description: step.description,
-      })
-      .select();
+  // 4. Bulk insert all trip steps at once
+  const tripStepsToInsert = serviceSteps.map((step) => ({
+    trip_id: trip.id,
+    step_number: step.step_number,
+    title: step.title,
+    description: step.description,
+  }));
 
-    if (tripStepError || !tripStepData?.[0]) {
-      console.error("Failed to insert trip step:", tripStepError);
-      throw tripStepError || new Error("Trip step insertion failed");
-    }
+  const { data: insertedTripSteps, error: tripStepsError } = await supabase
+    .from("trip_steps")
+    .insert(tripStepsToInsert)
+    .select();
 
-    // 3b. Fetch requirements for this step
-    const { data: requirements, error: requirementsError } = await supabase
-      .from("service_requirements")
-      .select("*")
-      .eq("service_steps_id", step.id);
+  if (tripStepsError || !insertedTripSteps) {
+    console.error("Failed to insert trip steps:", tripStepsError);
+    throw tripStepsError || new Error("Trip steps insertion failed");
+  }
 
-    if (requirementsError) {
-      console.error("Failed to fetch step requirements:", requirementsError);
-      throw requirementsError;
-    }
+  // 5. Fetch all requirements for all service steps in a single query
+  const serviceStepIds = serviceSteps.map((step) => step.id);
+  const { data: allRequirements, error: requirementsError } = await supabase
+    .from("service_requirements")
+    .select("*")
+    .in("service_steps_id", serviceStepIds);
 
-    // 3c. Insert step requirements into trip_steps_requirements
-    if (requirements && requirements.length > 0) {
-      const { error: tripRequirementsError } = await supabase
-        .from("trip_steps_requirements")
-        .insert(
-          requirements.map((req) => ({
-            trip_step_id: tripStepData[0].id,
-            title: req.title,
-            notes: req.notes,
-          }))
-        );
+  if (requirementsError) {
+    console.error("Failed to fetch requirements:", requirementsError);
+    throw requirementsError;
+  }
 
-      if (tripRequirementsError) {
-        console.error(
-          "Failed to insert trip step requirements:",
-          tripRequirementsError
-        );
-        throw tripRequirementsError;
-      }
+  // 6. Bulk insert all requirements at once (if any exist)
+  if (allRequirements && allRequirements.length > 0) {
+    // Create a map of service_step_id to trip_step_id for quick lookup
+    const stepIdMap = new Map(
+      serviceSteps.map((serviceStep, index) => [
+        serviceStep.id,
+        insertedTripSteps[index].id,
+      ])
+    );
+
+    const tripRequirementsToInsert = allRequirements.map((req) => ({
+      trip_step_id: stepIdMap.get(req.service_steps_id),
+      title: req.title,
+      notes: req.notes,
+    }));
+
+    const { error: tripRequirementsError } = await supabase
+      .from("trip_steps_requirements")
+      .insert(tripRequirementsToInsert);
+
+    if (tripRequirementsError) {
+      console.error(
+        "Failed to insert trip requirements:",
+        tripRequirementsError
+      );
+      throw tripRequirementsError;
     }
   }
 
-  // 4. Return the created trip
+  // 7. Return the created trip
   return trip;
 };
 

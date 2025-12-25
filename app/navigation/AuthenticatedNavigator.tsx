@@ -1,12 +1,12 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/user/HomeScreen";
-import MyTripsScreen from "../screens/user/MyTripsScreen";
-import Profile from "../screens/user/Profile";
 import { Fontisto, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "tamagui";
 import { cairoFont } from "../constants/tamagui.config";
-import CategoriesStackNavigator from "./CategoriesStackNavigator";
+import HomeScreen from "../screens/user/HomeScreen";
+import Profile from "../screens/user/Profile";
 import { type AuthenticatedNavigatorParamList } from "../types/types";
+import CategoriesStackNavigator from "./CategoriesStackNavigator";
+import TripsStackNavigator from "././TripsStackNavigator";
 
 const Tab = createBottomTabNavigator<AuthenticatedNavigatorParamList>();
 
@@ -70,7 +70,7 @@ export default function AuthenticatedNavigator() {
           ),
         }}
         name="MyTrips"
-        component={MyTripsScreen}
+        component={TripsStackNavigator}
       />
       <Tab.Screen
         options={{

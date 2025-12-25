@@ -13,7 +13,7 @@ export default function AuthNavigator() {
       screenOptions={{
         headerShown: false,
         gestureEnabled: false,
-        animation: "simple_push",
+        animation: "fade_from_bottom",
         contentStyle: {
           backgroundColor: theme.background.get(),
           paddingEnd: 10,

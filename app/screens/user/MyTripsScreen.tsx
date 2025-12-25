@@ -15,8 +15,9 @@ import {
   YStack,
 } from "tamagui";
 
-const MyTripsScreen = () => {
+const MyTripsScreen = ({ navigation }: { navigation: any }) => {
   const { getAllTripsQuery } = useTrips();
+
   const theme = useTheme();
 
   const handleRetry = () => {
@@ -77,7 +78,7 @@ const MyTripsScreen = () => {
   };
 
   const handleTripPress = (tripId: string) => {
-    // navigation.navigate("TripDetails", { tripId });
+    navigation.navigate("TripDetails", { tripId });
   };
 
   return (

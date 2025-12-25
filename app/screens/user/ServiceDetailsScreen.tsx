@@ -47,6 +47,7 @@ const ServiceDetailsScreen = () => {
       {
         serviceId,
         userId: userSession?.id || "",
+        serviceName: data?.name,
       },
       {
         onSuccess: (data) => {

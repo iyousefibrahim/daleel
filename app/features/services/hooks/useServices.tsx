@@ -1,3 +1,9 @@
+import {
+  Service,
+  ServiceRequirement,
+  ServiceStep,
+  Trip,
+} from "@/app/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getAllServices,
@@ -7,12 +13,6 @@ import {
   getServiceSteps,
   startService,
 } from "../api/services";
-import {
-  Service,
-  ServiceRequirement,
-  ServiceStep,
-  Trip,
-} from "@/app/types/types";
 
 const useServices = () => {
   const queryClient = useQueryClient();
@@ -54,10 +54,11 @@ const useServices = () => {
   const startServiceMutation = useMutation<
     Trip,
     Error,
-    { serviceId: string; userId: string }
+    { serviceId: string; userId: string; serviceName?: string }
   >({
     mutationKey: ["service", "start"],
-    mutationFn: ({ serviceId, userId }) => startService(serviceId, userId),
+    mutationFn: ({ serviceId, userId, serviceName }) =>
+      startService(serviceId, userId, serviceName),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["trips", "all"],
