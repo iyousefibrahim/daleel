@@ -1,15 +1,20 @@
 import { Trip } from "@/app/types/types";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import useAuth from "../../auth/hooks/useAuth";
 import {
+  areAllTripStepsCompleted,
+  completeStepRequirement,
+  completeTrip,
   getAllUserTrips,
   getTripById,
   getTripRequirements,
   getTripSteps,
+  uncompleteStepRequirement,
 } from "../api/trips";
-import useAuth from "../../auth/hooks/useAuth";
 
 const useTrips = () => {
   const { userSession } = useAuth();
+  const queryClient = useQueryClient();
   const getAllTripsQuery = useQuery<Trip[]>({
     queryKey: ["trips", "all"],
     queryFn: () => getAllUserTrips(userSession?.id as string),
@@ -43,11 +48,41 @@ const useTrips = () => {
       staleTime: 1000 * 60 * 5, // 5 minutes
     });
 
+  const completeStepRequirementMutation = useMutation({
+    mutationFn: completeStepRequirement,
+  });
+
+  const uncompleteStepRequirementMutation = useMutation({
+    mutationFn: uncompleteStepRequirement,
+  });
+
+  const completeTripMutation = useMutation({
+    mutationFn: completeTrip,
+    onSuccess: () => {
+      // invalidate all trips query
+      queryClient.invalidateQueries({
+        queryKey: ["trips", "all"],
+      });
+    },
+  });
+
+  const areAllTripStepsCompletedQuery = (tripId: string) =>
+    useQuery({
+      queryKey: ["trips", "allStepsCompleted", tripId],
+      queryFn: () => areAllTripStepsCompleted(tripId),
+      enabled: !!tripId,
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    });
+
   return {
     getAllTripsQuery,
     getTripByIdQuery,
     getTripStepsQuery,
     getTripRequirementsQuery,
+    areAllTripStepsCompletedQuery,
+    completeStepRequirementMutation,
+    uncompleteStepRequirementMutation,
+    completeTripMutation,
   };
 };
 

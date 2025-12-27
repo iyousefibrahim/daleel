@@ -180,6 +180,8 @@ export const startService = async (
       trip_step_id: stepIdMap.get(req.service_steps_id),
       title: req.title,
       notes: req.notes,
+      background_color: req.background_color,
+      icon_url: req.icon_url,
     }));
 
     const { error: tripRequirementsError } = await supabase

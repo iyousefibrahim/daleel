@@ -26,7 +26,7 @@ export const getTripById = async (id: string) => {
 export const getTripSteps = async (tripId: string) => {
   const { data, error } = await supabase
     .from("trip_steps")
-    .select("*")
+    .select("*, trip_steps_requirements(*),  is_fully_completed")
     .eq("trip_id", tripId);
 
   if (error) {
@@ -38,7 +38,7 @@ export const getTripSteps = async (tripId: string) => {
 
 export const getTripRequirements = async (trip_step_id: string) => {
   const { data, error } = await supabase
-    .from("trip_requirements")
+    .from("trip_steps_requirements")
     .select("*")
     .eq("trip_step_id", trip_step_id);
 
@@ -47,4 +47,55 @@ export const getTripRequirements = async (trip_step_id: string) => {
   }
 
   return data;
+};
+
+export const completeStepRequirement = async (tripStepId: string) => {
+  const { data, error } = await supabase
+    .from("trip_steps_requirements")
+    .update({ fulfilled: true })
+    .eq("trip_step_id", tripStepId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
+export const uncompleteStepRequirement = async (tripStepId: string) => {
+  const { data, error } = await supabase
+    .from("trip_steps_requirements")
+    .update({ fulfilled: false })
+    .eq("trip_step_id", tripStepId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
+export const completeTrip = async (tripId: string) => {
+  const { data, error } = await supabase
+    // set for now percentage to 100 manually
+    .from("trips")
+    .update({ status: "completed", completion_percentage: 100 })
+    .eq("id", tripId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
+export const areAllTripStepsCompleted = async (tripId: string) => {
+  const { data, error } = await supabase.rpc("check_all_trip_steps_completed", {
+    p_trip_id: tripId,
+  });
+
+  if (error) {
+    throw error;
+  }
+  return data as boolean;
 };

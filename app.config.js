@@ -11,7 +11,7 @@ export default {
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
     eas: {
-      projectId: process.env.EAS_PROJECT_ID,
+      projectId: "cb1d1254-4cf9-4275-ad73-0d8044d3131e",
     },
     supportsRTL: true,
     forcesRTL: true,
@@ -21,6 +21,9 @@ export default {
     supportsRTL: true,
   },
   android: {
+    package: "com.youssef.daleel",
+    versionCode: 1,
+    versionName: "1.0.0",
     adaptiveIcon: {
       backgroundColor: "#E6F4FE",
       foregroundImage: "./assets/images/android-icon-foreground.png",

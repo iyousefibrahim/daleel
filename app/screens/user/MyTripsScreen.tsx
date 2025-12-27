@@ -63,7 +63,7 @@ const MyTripsScreen = ({ navigation }: { navigation: any }) => {
       case "in_progress":
         return "$primary50";
       case "completed":
-        return "$successBackground";
+        return "$white";
       case "cancelled":
         return "$errorBackground";
     }
@@ -117,7 +117,8 @@ const MyTripsScreen = ({ navigation }: { navigation: any }) => {
             trips.map((trip) => (
               <YStack
                 key={trip.id}
-                backgroundColor="$card"
+                disabled={trip.status === "completed"}
+                backgroundColor={trip.status === "completed" ? "$successBackground" : "$card"}
                 padding="$4"
                 borderRadius="$3"
                 shadowColor="$shadowColor"

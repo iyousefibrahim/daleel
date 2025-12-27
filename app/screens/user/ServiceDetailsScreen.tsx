@@ -1,7 +1,7 @@
+import ActionFooter from "@/app/components/ActionFooter";
 import Error from "@/app/components/Error";
 import Loader from "@/app/components/Loader";
 import useAuth from "@/app/features/auth/hooks/useAuth";
-import ServiceActionFooter from "@/app/features/services/components/ServiceActionFooter";
 import ServiceHeader from "@/app/features/services/components/ServiceHeader";
 import ServiceHero from "@/app/features/services/components/ServiceHero";
 import ServiceTabs from "@/app/features/services/components/ServiceTabs";
@@ -94,9 +94,11 @@ const ServiceDetailsScreen = () => {
         />
       </ScrollView>
 
-      <ServiceActionFooter
+      <ActionFooter
         onPress={startService}
         isLoading={startServiceMutation.isPending}
+        text="بدء الخدمة"
+        icon="arrow-back-circle"
       />
     </>
   );
