@@ -23,10 +23,10 @@ const ServiceDetailsScreen = () => {
   const { data, isLoading, isError, refetch } = getServiceByIdQuery(serviceId);
   const { data: serviceStepsData } = getServiceStepsQuery(serviceId);
   const { userSession } = useAuth();
+  const serviceStepId = serviceStepsData?.[0]?.id || "";
 
-  const { data: serviceRequirementsData } = getServiceRequirementsQuery(
-    serviceStepsData?.[0]?.id || ""
-  );
+  const { data: serviceRequirementsData } =
+    getServiceRequirementsQuery(serviceStepId);
 
   const theme = useTheme();
 
@@ -48,6 +48,7 @@ const ServiceDetailsScreen = () => {
         serviceId,
         userId: userSession?.id || "",
         serviceName: data?.name,
+        serviceSteps: serviceStepsData,
       },
       {
         onSuccess: (data) => {
@@ -93,7 +94,10 @@ const ServiceDetailsScreen = () => {
         />
       </ScrollView>
 
-      <ServiceActionFooter onPress={startService} />
+      <ServiceActionFooter
+        onPress={startService}
+        isLoading={startServiceMutation.isPending}
+      />
     </>
   );
 };

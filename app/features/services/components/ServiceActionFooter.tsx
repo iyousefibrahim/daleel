@@ -1,8 +1,14 @@
 import { colors } from "@/app/constants/tamagui.config";
 import { Ionicons } from "@expo/vector-icons";
-import { Button, Paragraph, XStack, YStack } from "tamagui";
+import { Button, Paragraph, Spinner, XStack, YStack } from "tamagui";
 
-const ServiceActionFooter = ({ onPress }: { onPress: () => void }) => {
+const ServiceActionFooter = ({
+  onPress,
+  isLoading,
+}: {
+  onPress: () => void;
+  isLoading?: boolean;
+}) => {
   return (
     <YStack
       position="absolute"
@@ -21,13 +27,18 @@ const ServiceActionFooter = ({ onPress }: { onPress: () => void }) => {
         borderRadius="$3"
         pressStyle={{ backgroundColor: colors.primary700, scale: 0.98 }}
         onPress={onPress}
+        disabled={isLoading}
       >
-        <XStack gap="$2" alignItems="center">
-          <Paragraph size="$5" fontWeight="700" color={colors.white}>
-            ابدأ الخدمة الآن
-          </Paragraph>
-          <Ionicons name="arrow-back-circle" size={24} color={colors.white} />
-        </XStack>
+        {isLoading ? (
+          <Spinner size="small" color={colors.white} />
+        ) : (
+          <XStack gap="$2" alignItems="center">
+            <Paragraph size="$5" fontWeight="700" color={colors.white}>
+              ابدأ الخدمة الآن
+            </Paragraph>
+            <Ionicons name="arrow-back-circle" size={24} color={colors.white} />
+          </XStack>
+        )}
       </Button>
     </YStack>
   );

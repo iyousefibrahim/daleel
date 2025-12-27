@@ -1,4 +1,5 @@
 import { supabase } from "@/app/lib/supabaseClient";
+import { ServiceStep } from "@/app/types/types";
 
 export const getAllServices = async () => {
   const { data, error } = await supabase.from("services").select("*");
@@ -78,7 +79,8 @@ export const getServiceRequirements = async (service_steps_id: string) => {
 export const startService = async (
   service_id: string,
   user_id: string,
-  service_name?: string
+  service_name?: string,
+  service_steps?: ServiceStep[]
 ) => {
   // 1. Fetch service name only if not provided
   let serviceName = service_name;
@@ -114,15 +116,20 @@ export const startService = async (
   const trip = tripData[0];
 
   // 3. Fetch all steps for the service
-  const { data: serviceSteps, error: serviceStepsError } = await supabase
-    .from("service_steps")
-    .select("*")
-    .eq("service_id", service_id)
-    .order("step_number", { ascending: true });
+  let serviceSteps = service_steps;
 
-  if (serviceStepsError) {
-    console.error("Failed to fetch service steps:", serviceStepsError);
-    throw serviceStepsError;
+  if (!serviceSteps) {
+    const { data: fetchedSteps, error: serviceStepsError } = await supabase
+      .from("service_steps")
+      .select("*")
+      .eq("service_id", service_id)
+      .order("step_number", { ascending: true });
+
+    if (serviceStepsError) {
+      console.error("Failed to fetch service steps:", serviceStepsError);
+      throw serviceStepsError;
+    }
+    serviceSteps = fetchedSteps;
   }
 
   if (!serviceSteps || serviceSteps.length === 0) {

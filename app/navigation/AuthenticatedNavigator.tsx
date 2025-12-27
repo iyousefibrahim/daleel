@@ -5,8 +5,8 @@ import { cairoFont } from "../constants/tamagui.config";
 import HomeScreen from "../screens/user/HomeScreen";
 import Profile from "../screens/user/Profile";
 import { type AuthenticatedNavigatorParamList } from "../types/types";
-import CategoriesStackNavigator from "./CategoriesStackNavigator";
 import TripsStackNavigator from "././TripsStackNavigator";
+import CategoriesStackNavigator from "./CategoriesStackNavigator";
 
 const Tab = createBottomTabNavigator<AuthenticatedNavigatorParamList>();
 
@@ -18,8 +18,6 @@ export default function AuthenticatedNavigator() {
         headerShown: false,
         sceneStyle: {
           backgroundColor: theme.background.get(),
-          paddingEnd: 10,
-          paddingStart: 10,
         },
         tabBarStyle: {
           backgroundColor: theme.background.get(),

@@ -21,6 +21,8 @@ const useServices = () => {
     useQuery<Service[]>({
       queryKey: ["services", "all"],
       queryFn: getAllServices,
+      staleTime: 1000 * 60 * 60, // 1 hour
+      gcTime: 1000 * 60 * 60, // 1 hour
     });
 
   const getServiceByIdQuery = (id: string) =>
@@ -28,6 +30,8 @@ const useServices = () => {
       queryKey: ["services", "id", id],
       queryFn: () => getServiceById(id),
       enabled: !!id,
+      staleTime: 1000 * 60 * 60, // 1 hour
+      gcTime: 1000 * 60 * 60, // 1 hour
     });
 
   const getServicesByCategoryIdQuery = (categoryId: string) =>
@@ -35,6 +39,8 @@ const useServices = () => {
       queryKey: ["services", "category", categoryId],
       queryFn: () => getServicesByCategoryId(categoryId),
       enabled: !!categoryId,
+      staleTime: 1000 * 60 * 60, // 1 hour
+      gcTime: 1000 * 60 * 60, // 1 hour
     });
 
   const getServiceStepsQuery = (serviceId: string) =>
@@ -42,6 +48,8 @@ const useServices = () => {
       queryKey: ["services", "steps", serviceId],
       queryFn: () => getServiceSteps(serviceId),
       enabled: !!serviceId,
+      staleTime: 1000 * 60 * 60, // 1 hour
+      gcTime: 1000 * 60 * 60, // 1 hour
     });
 
   const getServiceRequirementsQuery = (serviceStepId: string) =>
@@ -49,16 +57,23 @@ const useServices = () => {
       queryKey: ["services", "requirements", serviceStepId],
       queryFn: () => getServiceRequirements(serviceStepId),
       enabled: !!serviceStepId,
+      staleTime: 1000 * 60 * 60, // 1 hour
+      gcTime: 1000 * 60 * 60, // 1 hour
     });
 
   const startServiceMutation = useMutation<
     Trip,
     Error,
-    { serviceId: string; userId: string; serviceName?: string }
+    {
+      serviceId: string;
+      userId: string;
+      serviceName?: string;
+      serviceSteps?: ServiceStep[];
+    }
   >({
     mutationKey: ["service", "start"],
-    mutationFn: ({ serviceId, userId, serviceName }) =>
-      startService(serviceId, userId, serviceName),
+    mutationFn: ({ serviceId, userId, serviceName, serviceSteps }) =>
+      startService(serviceId, userId, serviceName, serviceSteps),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["trips", "all"],

@@ -13,7 +13,7 @@ const Profile = () => {
         <YStack height="100%">
           <H3 textAlign="left">الملف الشخصي</H3>
           <Button
-            size="large"
+            size="$7"
             height={50}
             backgroundColor={"$primary500"}
             color={"white"}

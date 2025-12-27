@@ -8,6 +8,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "@/app/components/BackButton";
 import Loader from "@/app/components/Loader";
 import Error from "@/app/components/Error";
+import NoData from "@/app/components/NoData";
 
 type CategoriesStackNavProp = NativeStackNavigationProp<
   CategoriesStackParamList,
@@ -83,24 +84,10 @@ const CategoryServicesScreen = () => {
               />
             ))
           ) : (
-            <YStack
-              alignItems="center"
-              mt="$10"
-              p="$6"
-              bg="$card"
-              br="$4"
-              borderWidth={1}
-              borderColor="$cardBorder"
-            >
-              <Paragraph
-                textAlign="center"
-                color="$gray500"
-                fontFamily="$body"
-                size="$5"
-              >
-                لا توجد خدمات متاحة حالياً في هذا القسم
-              </Paragraph>
-            </YStack>
+            <NoData
+              message="لا توجد خدمات متاحة حالياً في هذا القسم"
+              iconName="box-shadow"
+            />
           )}
         </YStack>
       </ScrollView>

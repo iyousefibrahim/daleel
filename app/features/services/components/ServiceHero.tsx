@@ -14,9 +14,7 @@ const ServiceHero = ({ imageUrl, onShare }: ServiceHeroProps) => {
     <YStack position="relative" height={240} backgroundColor={colors.gray200}>
       <Image
         source={{
-          uri:
-            imageUrl ||
-            "https://cdna1.yellowpages.com.eg/uploads/articles/english/2024/21/istockphoto-1190858270-612x612_11210.jpg?3",
+          uri: imageUrl,
         }}
         width="100%"
         height={240}

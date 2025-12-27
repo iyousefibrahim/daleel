@@ -1,9 +1,6 @@
 import { supabase } from "@/app/lib/supabaseClient";
 
-export const getAllUserTrips = async () => {
-  const user = supabase.auth.getUser();
-  const userId = (await user).data.user?.id;
-
+export const getAllUserTrips = async (userId: string) => {
   const { data, error } = await supabase
     .from("trips")
     .select("*")

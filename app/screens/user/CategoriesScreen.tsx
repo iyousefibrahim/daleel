@@ -1,5 +1,6 @@
 import Error from "@/app/components/Error";
 import Loader from "@/app/components/Loader";
+import NoData from "@/app/components/NoData";
 import Search from "@/app/components/Search";
 import CategoryCard from "@/app/features/categories/components/CategoryCard";
 import useCategories from "@/app/features/categories/hooks/useCategories";
@@ -25,12 +26,12 @@ const CategoriesScreen = () => {
   };
 
   if (isLoading) {
-    return <Loader message="جاري تحميل الفئات..." />;
+    return <Loader message="جاري تحميل الخدمات..." />;
   }
 
   if (isError) {
     return (
-      <Error message="حدث خطأ أثناء تحميل الفئات." onClick={handleRetry} />
+      <Error message="حدث خطأ أثناء تحميل الخدمات." onClick={handleRetry} />
     );
   }
 
@@ -67,18 +68,22 @@ const CategoriesScreen = () => {
           <Search placeholder="إبحث عن خدمات" />
         </XStack>
         <XStack gap="$1" flexWrap="wrap">
-          {data?.map((category) => (
-            <CategoryCard
-              key={category.id}
-              name={category.name}
-              icon_url={category.icon_url}
-              onPress={() => {
-                navigation.navigate("CategoryServices", {
-                  categoryId: category.id,
-                });
-              }}
-            />
-          ))}
+          {data && data.length > 0 ? (
+            data.map((category) => (
+              <CategoryCard
+                key={category.id}
+                name={category.name}
+                icon_url={category.icon_url}
+                onPress={() => {
+                  navigation.navigate("CategoryServices", {
+                    categoryId: category.id,
+                  });
+                }}
+              />
+            ))
+          ) : (
+            <NoData message="لا يوجد خدمات حالياً" iconName="box-shadow" />
+          )}
         </XStack>
       </ScrollView>
     </SafeAreaView>

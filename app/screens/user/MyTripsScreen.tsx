@@ -1,6 +1,7 @@
 import CircularProgressRing from "@/app/components/CircularProgressRing";
 import Error from "@/app/components/Error";
 import Loader from "@/app/components/Loader";
+import NoData from "@/app/components/NoData";
 import useTrips from "@/app/features/trips/hooks/useTrips";
 import { TripStatus } from "@/app/types/types";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +18,7 @@ import {
 
 const MyTripsScreen = ({ navigation }: { navigation: any }) => {
   const { getAllTripsQuery } = useTrips();
+  const { data, isLoading, isError } = getAllTripsQuery;
 
   const theme = useTheme();
 
@@ -24,15 +26,15 @@ const MyTripsScreen = ({ navigation }: { navigation: any }) => {
     getAllTripsQuery.refetch();
   };
 
-  if (getAllTripsQuery.isLoading) {
+  if (isLoading) {
     return <Loader message="جاري تحميل مشاويرك..." />;
   }
 
-  if (getAllTripsQuery.isError || !getAllTripsQuery.data) {
+  if (isError || !data) {
     return <Error message="حدث خطأ، حاول مرة أخرى." onClick={handleRetry} />;
   }
 
-  const trips = getAllTripsQuery.data;
+  const trips = data;
 
   const getStatusText = (status: TripStatus) => {
     switch (status) {
@@ -111,96 +113,91 @@ const MyTripsScreen = ({ navigation }: { navigation: any }) => {
 
         {/* Trips List */}
         <YStack px="$4" gap="$3" paddingBottom="$6">
-          {trips.map((trip) => (
-            <YStack
-              key={trip.id}
-              backgroundColor="$card"
-              padding="$4"
-              borderRadius="$3"
-              shadowColor="$shadowColor"
-              shadowOpacity={0.1}
-              elevation={2}
-              pressStyle={{
-                backgroundColor: "$cardHover",
-                scale: 0.98,
-              }}
-              onPress={() => handleTripPress(trip.id)}
-            >
-              <XStack
-                width="100%"
-                alignItems="center"
-                justifyContent="space-between"
+          {trips && trips?.length > 0 ? (
+            trips.map((trip) => (
+              <YStack
+                key={trip.id}
+                backgroundColor="$card"
+                padding="$4"
+                borderRadius="$3"
+                shadowColor="$shadowColor"
+                shadowOpacity={0.1}
+                elevation={2}
+                pressStyle={{
+                  backgroundColor: "$cardHover",
+                  scale: 0.98,
+                }}
+                onPress={() => handleTripPress(trip.id)}
               >
-                {/* Progress Ring */}
-                <CircularProgressRing
-                  value={trip.completion_percentage || 0}
-                  total={100}
-                />
-
-                {/* Trip Info */}
-                <YStack alignItems="flex-start" flex={1} marginStart="$4">
-                  <H4
-                    fontFamily="$heading"
-                    color="$primary800"
-                    fontSize="$5"
-                    fontWeight="700"
-                    textAlign="left"
-                    marginBottom="$1"
-                    w="100%"
-                  >
-                    {trip.service_name}
-                  </H4>
-
-                  {trip.created_at && (
-                    <Paragraph
-                      fontFamily="$body"
-                      color="$gray600"
-                      fontSize="$3"
-                      marginBottom="$2"
+                <XStack
+                  width="100%"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  {/* Trip Info */}
+                  <YStack alignItems="flex-start" flex={1} marginStart="$4">
+                    <H4
+                      fontFamily="$heading"
+                      color="$primary800"
+                      fontSize="$5"
+                      fontWeight="700"
+                      textAlign="left"
+                      marginBottom="$1"
+                      w="100%"
                     >
-                      {formatDate(trip.created_at)}
-                    </Paragraph>
-                  )}
+                      {trip.service_name}
+                    </H4>
 
-                  {/* Status Badge */}
-                  <XStack
-                    backgroundColor={getStatusBgColor(trip.status)}
-                    paddingHorizontal="$3"
-                    paddingVertical="$1"
-                    borderRadius="$2"
-                  >
+                    {trip.created_at && (
+                      <Paragraph
+                        fontFamily="$body"
+                        color="$gray600"
+                        fontSize="$3"
+                        marginBottom="$2"
+                      >
+                        {formatDate(trip.created_at)}
+                      </Paragraph>
+                    )}
+
+                    {/* Status Badge */}
+                    <XStack
+                      backgroundColor={getStatusBgColor(trip.status)}
+                      paddingHorizontal="$3"
+                      paddingVertical="$1"
+                      borderRadius="$2"
+                    >
+                      <SizableText
+                        fontFamily="$body"
+                        color={getStatusColor(trip.status)}
+                        fontSize="$3"
+                        fontWeight="600"
+                      >
+                        {getStatusText(trip.status)}
+                      </SizableText>
+                    </XStack>
+                  </YStack>
+
+                  {/* Completion Percentage */}
+                  <YStack alignItems="center">
+                    {/* Progress Ring */}
+                    <CircularProgressRing
+                      value={trip.completion_percentage || 0}
+                      total={100}
+                    />
                     <SizableText
                       fontFamily="$body"
-                      color={getStatusColor(trip.status)}
-                      fontSize="$3"
-                      fontWeight="600"
+                      color="$gray500"
+                      fontSize="$2"
                     >
-                      {getStatusText(trip.status)}
+                      {trip.completion_percentage || 0}%
                     </SizableText>
-                  </XStack>
-                </YStack>
-
-                {/* Completion Percentage */}
-                <YStack alignItems="center">
-                  <SizableText
-                    fontFamily="$body"
-                    color="$primary500"
-                    fontSize="$6"
-                    fontWeight="700"
-                  >
-                    {trip.completion_percentage || 0}%
-                  </SizableText>
-                  <SizableText
-                    fontFamily="$body"
-                    color="$gray500"
-                    fontSize="$2"
-                  >
-                    مكتمل
-                  </SizableText>
-                </YStack>
-              </XStack>
-            </YStack>
-          ))}
+                  </YStack>
+                </XStack>
+              </YStack>
+            ))
+          ) : (
+            <NoData message="لا يوجد مشاوير حالياً" iconName="bookmark" />
+          )}
         </YStack>
       </ScrollView>
     </SafeAreaView>
