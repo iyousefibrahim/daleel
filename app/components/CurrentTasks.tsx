@@ -12,7 +12,7 @@ type NavigationProp = BottomTabNavigationProp<
 const CurrentTasks = () => {
   const navigation = useNavigation<NavigationProp>();
   const handleShowAll = () => {
-    navigation.navigate("MyTrips");
+    navigation.navigate("TripsNavigator");
   };
 
   return (

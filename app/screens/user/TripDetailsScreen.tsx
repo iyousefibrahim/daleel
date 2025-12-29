@@ -8,12 +8,14 @@ import useTrips from "@/app/features/trips/hooks/useTrips";
 import { useRoute } from "@react-navigation/native";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Accordion, Paragraph, useTheme, XStack, YStack } from "tamagui";
 import BackButton from "../../components/BackButton";
 import { colors } from "../../constants/tamagui.config";
+import HolidayBadge from "@/app/components/HolidayBadge";
+import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
 
 export default function TripDetailsScreen() {
   const [expandedId, setExpandedId] = useState<string>("5");
@@ -145,12 +147,7 @@ export default function TripDetailsScreen() {
 
           <XStack alignItems="center" gap="$2">
             <CurrentDate />
-            {/* Handle Holidays */}
-            <YStack bg="#FFF9C4" px="$2" py="$1" br="$4">
-              <Paragraph color="#F57F17" fontSize={12}>
-                عطلة رسمية
-              </Paragraph>
-            </YStack>
+            <HolidayBadge />
           </XStack>
         </XStack>
 
@@ -160,10 +157,7 @@ export default function TripDetailsScreen() {
             {trip.service_name}
           </Paragraph>
           <Paragraph fontSize={14} color={colors.gray500} textAlign="left">
-            تم بدء الخدمة في:{" "}
-            {new Date(trip.created_at || Date.now()).toLocaleDateString(
-              "ar-EG"
-            )}
+            تم بدء الخدمة في: {formatDateWithWeekday(new Date(trip.created_at))}
           </Paragraph>
         </YStack>
 

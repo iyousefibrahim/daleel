@@ -6,8 +6,8 @@ export type AuthStackParamList = {
 export type AuthenticatedNavigatorParamList = {
   Home: undefined;
   Services: undefined;
-  MyTrips: undefined;
-  Profile: undefined;
+  TripsNavigator: undefined;
+  ProfileNavigator: undefined;
 };
 
 export interface Profile {

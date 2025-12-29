@@ -3,6 +3,7 @@ import { ServiceRequirement, ServiceStep } from "@/app/types/types";
 import { Paragraph, SizableText, Tabs, YStack } from "tamagui";
 import RequirementItem from "./RequirementItem";
 import StepItem from "./StepItem";
+import NoData from "@/app/components/NoData";
 
 interface ServiceTabsProps {
   description?: string | null;
@@ -124,14 +125,18 @@ const ServiceTabs = ({
           >
             نبذة عن الخدمة
           </Paragraph>
-          <Paragraph
-            size="$5"
-            lineHeight="$6"
-            color={colors.gray700}
-            textAlign="right"
-          >
-            {description || "لا يوجد تفاصيل عن الخدمة"}
-          </Paragraph>
+          {description ? (
+            <Paragraph
+              size="$5"
+              lineHeight="$6"
+              color={colors.gray700}
+              textAlign="right"
+            >
+              {description}
+            </Paragraph>
+          ) : (
+            <NoData message="لا يوجد تفاصيل عن الخدمة" />
+          )}
         </YStack>
       </Tabs.Content>
 
@@ -158,9 +163,7 @@ const ServiceTabs = ({
               />
             ))
           ) : (
-            <Paragraph size="$5" color={colors.gray600} textAlign="right">
-              لا يوجد متطلبات أساسية
-            </Paragraph>
+            <NoData message="لا يوجد متطلبات أساسية" />
           )}
         </YStack>
       </Tabs.Content>
@@ -187,9 +190,7 @@ const ServiceTabs = ({
               />
             ))
           ) : (
-            <Paragraph size="$5" color={colors.gray600} textAlign="right">
-              لا يوجد خطوات
-            </Paragraph>
+            <NoData message="لا يوجد خطوات" />
           )}
         </YStack>
       </Tabs.Content>

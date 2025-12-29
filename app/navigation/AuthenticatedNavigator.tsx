@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "tamagui";
 import { cairoFont } from "../constants/tamagui.config";
 import HomeScreen from "../screens/user/HomeScreen";
-import Profile from "../screens/user/Profile";
 import { type AuthenticatedNavigatorParamList } from "../types/types";
 import TripsStackNavigator from "././TripsStackNavigator";
 import CategoriesStackNavigator from "./CategoriesStackNavigator";
+import ProfileStackNavigator from "./ProfileStackNavigator";
 
 const Tab = createBottomTabNavigator<AuthenticatedNavigatorParamList>();
 
@@ -67,7 +67,7 @@ export default function AuthenticatedNavigator() {
             <Fontisto name="bookmark" size={size} color={color} />
           ),
         }}
-        name="MyTrips"
+        name="TripsNavigator"
         component={TripsStackNavigator}
       />
       <Tab.Screen
@@ -77,8 +77,8 @@ export default function AuthenticatedNavigator() {
             <MaterialIcons name="person" size={size} color={color} />
           ),
         }}
-        name="Profile"
-        component={Profile}
+        name="ProfileNavigator"
+        component={ProfileStackNavigator}
       />
     </Tab.Navigator>
   );

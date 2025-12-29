@@ -108,8 +108,9 @@ const TripStepItem = React.memo(function TripStepItem({
 
             <Separator borderColor={colors.gray200} />
 
+            {/* Problem with toggle + must edit Supbase Database function */}
             {/* Toggle */}
-            <XStack
+            {/* <XStack
               justifyContent="space-between"
               alignItems="center"
               flexDirection="row-reverse"
@@ -125,7 +126,8 @@ const TripStepItem = React.memo(function TripStepItem({
               >
                 <Switch.Thumb />
               </Switch>
-            </XStack>
+            </XStack> */}
+
           </YStack>
         </YStack>
       </Accordion.Content>

@@ -1,12 +1,8 @@
 import { Paragraph } from "tamagui";
+import { formatDateWithWeekday } from "../lib/utils/dateUtils";
 
 const CurrentDate = () => {
-  const formattedDate = new Intl.DateTimeFormat("ar-EG", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  }).format(new Date() as Date);
-
+  const formattedDate = formatDateWithWeekday();
   return (
     <Paragraph
       fontFamily="$body"

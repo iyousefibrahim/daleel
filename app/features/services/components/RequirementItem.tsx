@@ -41,7 +41,7 @@ const RequirementItem = ({
     >
       <ExpoImage
         source={{ uri: icon_url }}
-        style={{ width: 24, height: 24 }}
+        style={{ width: 30, height: 30 }}
         contentFit="contain"
       />
     </YStack>

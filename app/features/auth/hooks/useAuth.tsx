@@ -41,6 +41,7 @@ function useAuth() {
     mutationFn: logOut,
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ["user"] });
+      queryClient.removeQueries({ queryKey: ["trips"] });
     },
   });
 

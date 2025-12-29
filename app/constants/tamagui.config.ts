@@ -1,4 +1,5 @@
 import { createFont, createTamagui, createTokens } from "@tamagui/core";
+import { createAnimations } from "@tamagui/animations-css";
 
 const cairoFont = createFont({
   family: "Cairo-Regular",
@@ -317,6 +318,21 @@ const darkTheme = {
   placeholderColor: colors.gray500,
 };
 
+const animations = createAnimations({
+  quick: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 250,
+    mass: 1,
+  },
+  quicker: {
+    type: 'spring',
+    damping: 30,
+    stiffness: 400,
+    mass: 0.8,
+  },
+})
+
 const config = createTamagui({
   tokens,
   themes: {
@@ -363,6 +379,7 @@ const config = createTamagui({
     pl: "paddingLeft",
     pr: "paddingRight",
   } as const,
+  animations,
 });
 
 export type AppConfig = typeof config;
