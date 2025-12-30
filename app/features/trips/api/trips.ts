@@ -1,4 +1,5 @@
 import { supabase } from "@/app/lib/supabaseClient";
+import { Trip } from "@/app/types/types";
 
 export const getAllUserTrips = async (userId: string) => {
   const { data, error } = await supabase
@@ -13,14 +14,14 @@ export const getAllUserTrips = async (userId: string) => {
   return data;
 };
 
-export const getTripById = async (id: string) => {
+export const getTripById = async (id: string): Promise<Trip> => {
   const { data, error } = await supabase.from("trips").select("*").eq("id", id);
 
   if (error) {
     throw error;
   }
 
-  return data;
+  return data as Trip;
 };
 
 export const getTripSteps = async (tripId: string) => {

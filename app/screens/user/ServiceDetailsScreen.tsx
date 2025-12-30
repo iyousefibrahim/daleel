@@ -20,18 +20,34 @@ const ServiceDetailsScreen = () => {
     getServiceRequirementsQuery,
     startServiceMutation,
   } = useServices();
-  const { data, isLoading, isError, refetch } = getServiceByIdQuery(serviceId);
-  const { data: serviceStepsData } = getServiceStepsQuery(serviceId);
+  const {
+    data,
+    isLoading: serviceByIdLoading,
+    isError: serviceByIdError,
+    refetch: refetchServiceById,
+  } = getServiceByIdQuery(serviceId);
+  const {
+    data: serviceStepsData,
+    isLoading: serviceStepsLoading,
+    isError: serviceStepsError,
+    refetch: refetchServiceSteps,
+  } = getServiceStepsQuery(serviceId);
   const { userSession } = useAuth();
   const serviceStepId = serviceStepsData?.[0]?.id || "";
 
-  const { data: serviceRequirementsData } =
-    getServiceRequirementsQuery(serviceStepId);
+  const {
+    data: serviceRequirementsData,
+    isLoading: serviceRequirementsLoading,
+    isError: serviceRequirementsError,
+    refetch: refetchServiceRequirements,
+  } = getServiceRequirementsQuery(serviceStepId);
 
   const theme = useTheme();
 
   const handleRetry = () => {
-    refetch();
+    refetchServiceById();
+    refetchServiceSteps();
+    refetchServiceRequirements();
   };
 
   const copyToClipboard = async (text: string) => {
@@ -69,8 +85,14 @@ const ServiceDetailsScreen = () => {
     );
   };
 
-  if (isLoading) return <Loader message="جاري تحميل الخدمة..." />;
-  if (isError || !data)
+  if (serviceByIdLoading || serviceStepsLoading || serviceRequirementsLoading)
+    return <Loader message="جاري تحميل الخدمة..." />;
+  if (
+    serviceByIdError ||
+    serviceStepsError ||
+    serviceRequirementsError ||
+    !data
+  )
     return <Error message="حدث خطأ، حاول مرة أخرى." onClick={handleRetry} />;
 
   return (

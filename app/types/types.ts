@@ -81,14 +81,41 @@ export interface ServiceRequirement {
 export type TripStatus = "in_progress" | "completed" | "cancelled";
 
 export interface Trip {
-  id: string; // UUID, primary key
-  service_id: string; // UUID, FK to public.services.id
-  service_name: string;
-  user_id: string; // UUID, FK to public.profiles.id
-  status: TripStatus; // Enum (trip_status)
+  id?: string; // UUID, primary key
+  service_id?: string; // UUID, FK to public.services.id
+  service_name?: string;
+  user_id?: string; // UUID, FK to public.profiles.id
+  status?: TripStatus; // Enum (trip_status)
 
   // Optional fields
   completion_percentage?: number; // smallint, default 0
   created_at?: string; // timestamptz, default now()
   updated_at?: string; // timestamptz, default now()
+}
+
+export interface TripStep {
+  id: string; // uuid (gen_random_uuid)
+  trip_id: string; // uuid (FK -> trips.id)
+
+  title: string; // optional
+  step_number: number; // int2
+
+  description?: string; // optional
+  compilation_percentage?: number; // int2 (default: 0)
+
+  created_at?: string; // timestamptz (ISO string)
+  updated_at?: string; // timestamptz
+}
+
+export interface TripStepRequirement {
+  id: string; // uuid (gen_random_uuid)
+  trip_step_id: string; // uuid (FK -> trip_steps.id)
+  title: string;
+  background_color: string;
+  icon_url: string;
+  notes?: string;
+  required?: boolean;
+  fulfilled?: boolean;
+  created_at?: string;
+  updated_at?: string;
 }

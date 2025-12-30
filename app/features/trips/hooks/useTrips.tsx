@@ -1,4 +1,4 @@
-import { Trip } from "@/app/types/types";
+import { Trip, TripStep, TripStepRequirement } from "@/app/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../auth/hooks/useAuth";
 import {
@@ -24,7 +24,7 @@ const useTrips = () => {
   });
 
   const getTripByIdQuery = (id: string) =>
-    useQuery({
+    useQuery<Trip | null>({
       queryKey: ["trips", "id", id],
       queryFn: () => getTripById(id),
       enabled: !!id,
@@ -33,7 +33,7 @@ const useTrips = () => {
     });
 
   const getTripStepsQuery = (tripId: string) =>
-    useQuery({
+    useQuery<TripStep[]>({
       queryKey: ["trips", "steps", tripId],
       queryFn: () => getTripSteps(tripId),
       enabled: !!tripId,
@@ -41,7 +41,7 @@ const useTrips = () => {
     });
 
   const getTripRequirementsQuery = (tripStepId: string) =>
-    useQuery({
+    useQuery<TripStepRequirement[]>({
       queryKey: ["trips", "requirements", tripStepId],
       queryFn: () => getTripRequirements(tripStepId),
       enabled: !!tripStepId,
@@ -67,7 +67,7 @@ const useTrips = () => {
   });
 
   const areAllTripStepsCompletedQuery = (tripId: string) =>
-    useQuery({
+    useQuery<boolean>({
       queryKey: ["trips", "allStepsCompleted", tripId],
       queryFn: () => areAllTripStepsCompleted(tripId),
       enabled: !!tripId,
