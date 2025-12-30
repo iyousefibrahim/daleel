@@ -127,7 +127,6 @@ const TripStepItem = React.memo(function TripStepItem({
                 <Switch.Thumb />
               </Switch>
             </XStack> */}
-
           </YStack>
         </YStack>
       </Accordion.Content>

@@ -8,17 +8,10 @@ interface MenuItemProps {
   label: string;
   onPress?: () => void;
   destructive?: boolean;
-  rightContent?: React.ReactNode;
 }
 
 export const MenuItem = memo(
-  ({
-    icon,
-    label,
-    onPress,
-    destructive = false,
-    rightContent,
-  }: MenuItemProps) => {
+  ({ icon, label, onPress, destructive = false }: MenuItemProps) => {
     const theme = useTheme();
     return (
       <XStack
@@ -50,14 +43,13 @@ export const MenuItem = memo(
             {label}
           </Paragraph>
         </XStack>
-        {rightContent || (
-          <Ionicons
-            name="chevron-back"
-            size={18}
-            color={theme.gray400.get()}
-            style={{ transform: [{ scaleX: -1 }] }}
-          />
-        )}
+
+        <Ionicons
+          name="chevron-back"
+          size={18}
+          color={theme.gray400.get()}
+          style={{ transform: [{ scaleX: -1 }] }}
+        />
       </XStack>
     );
   }

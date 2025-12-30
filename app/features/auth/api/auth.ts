@@ -62,11 +62,13 @@ export async function logOut() {
 
 export async function getUserSession() {
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
+  if (error || !session) {
     return null;
   }
 
-  return user;
+  return session.user;
 }

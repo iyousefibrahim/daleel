@@ -5,7 +5,6 @@ import * as WebBrowser from "expo-web-browser";
 import { Linking, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  Avatar,
   Button,
   Card,
   H2,
@@ -37,17 +36,6 @@ const ProgrammerScreen = () => {
 
           {/* Profile Section */}
           <YStack alignItems="center" mt="$4" gap="$4">
-            <Avatar
-              circular
-              size="$15"
-              bordered
-              borderColor="$primary100"
-              borderWidth={6}
-            >
-              <Avatar.Image src="https://avatars.githubusercontent.com/u/101850785?v=4" />
-              <Avatar.Fallback backgroundColor={colors.primary500} />
-            </Avatar>
-
             <YStack alignItems="center" gap="$1">
               <H2 fontWeight="800" color={theme.color.get()}>
                 يوسف إبراهيم
@@ -82,7 +70,7 @@ const ProgrammerScreen = () => {
 
           {/* Social Links */}
           <YStack gap="$3">
-            <H4 fontWeight="700" textAlign="left" px="$2">
+            <H4 fontWeight="700" textAlign="left" px="$2" lineHeight={"$8"}>
               تواصل معي
             </H4>
             <XStack gap="$2" flexWrap="wrap">
@@ -123,12 +111,6 @@ const ProgrammerScreen = () => {
             >
               ارسل بريداً إلكترونياً
             </Button>
-          </YStack>
-
-          <YStack alignItems="center" mt="$4">
-            <Paragraph color="$gray500" fontSize="$5">
-              تم التطوير بكل فخر 🇪🇬
-            </Paragraph>
           </YStack>
         </YStack>
       </ScrollView>

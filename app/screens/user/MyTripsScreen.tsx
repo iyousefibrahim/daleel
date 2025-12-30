@@ -3,7 +3,10 @@ import Error from "@/app/components/Error";
 import Loader from "@/app/components/Loader";
 import NoData from "@/app/components/NoData";
 import useTrips from "@/app/features/trips/hooks/useTrips";
+import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
+import { TripsStackParamList } from "@/app/navigation/TripsStackNavigator";
 import { TripStatus } from "@/app/types/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   H3,
@@ -16,7 +19,44 @@ import {
   YStack,
 } from "tamagui";
 
-const MyTripsScreen = ({ navigation }: { navigation: any }) => {
+interface MyTripsScreenProps {
+  navigation: NativeStackNavigationProp<TripsStackParamList, "MyTripsList">;
+}
+
+const getStatusText = (status: TripStatus) => {
+  switch (status) {
+    case "in_progress":
+      return "جاري التنفيذ";
+    case "completed":
+      return "مكتمل";
+    case "cancelled":
+      return "ملغي";
+  }
+};
+
+const getStatusColor = (status: TripStatus) => {
+  switch (status) {
+    case "in_progress":
+      return "$primary500";
+    case "completed":
+      return "$success";
+    case "cancelled":
+      return "$error";
+  }
+};
+
+const getStatusBgColor = (status: TripStatus) => {
+  switch (status) {
+    case "in_progress":
+      return "$primary50";
+    case "completed":
+      return "$white";
+    case "cancelled":
+      return "$errorBackground";
+  }
+};
+
+const MyTripsScreen = ({ navigation }: MyTripsScreenProps) => {
   const { getAllTripsQuery } = useTrips();
   const { data, isLoading, isError } = getAllTripsQuery;
 
@@ -35,49 +75,6 @@ const MyTripsScreen = ({ navigation }: { navigation: any }) => {
   }
 
   const trips = data;
-
-  const getStatusText = (status: TripStatus) => {
-    switch (status) {
-      case "in_progress":
-        return "جاري التنفيذ";
-      case "completed":
-        return "مكتمل";
-      case "cancelled":
-        return "ملغي";
-    }
-  };
-
-  const getStatusColor = (status: TripStatus) => {
-    switch (status) {
-      case "in_progress":
-        return "$primary500";
-      case "completed":
-        return "$success";
-      case "cancelled":
-        return "$error";
-    }
-  };
-
-  const getStatusBgColor = (status: TripStatus) => {
-    switch (status) {
-      case "in_progress":
-        return "$primary50";
-      case "completed":
-        return "$white";
-      case "cancelled":
-        return "$errorBackground";
-    }
-  };
-
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("ar-EG", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-    });
-  };
 
   const handleTripPress = (tripId: string) => {
     navigation.navigate("TripDetails", { tripId });
@@ -118,7 +115,9 @@ const MyTripsScreen = ({ navigation }: { navigation: any }) => {
               <YStack
                 key={trip.id}
                 disabled={trip.status === "completed"}
-                backgroundColor={trip.status === "completed" ? "$successBackground" : "$card"}
+                backgroundColor={
+                  trip.status === "completed" ? "$successBackground" : "$card"
+                }
                 padding="$4"
                 borderRadius="$3"
                 shadowColor="$shadowColor"
@@ -156,7 +155,7 @@ const MyTripsScreen = ({ navigation }: { navigation: any }) => {
                         fontSize="$3"
                         marginBottom="$2"
                       >
-                        {formatDate(trip.created_at)}
+                        {formatDateWithWeekday(new Date(trip.created_at))}
                       </Paragraph>
                     )}
 

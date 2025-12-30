@@ -60,11 +60,6 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
       label: "الأمان وكلمة المرور",
       onPress: () => console.log("Security"),
     },
-    {
-      icon: "notifications-outline",
-      label: "الإشعارات",
-      onPress: () => console.log("Notifications"),
-    },
   ];
 
   const fullName = userSession?.user_metadata?.full_name || "مستخدم دليل";
@@ -187,14 +182,13 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
                 label="تسجيل الخروج"
                 destructive
                 onPress={handleLogOut}
-                rightContent={<YStack />}
               />
             </YStack>
           </YStack>
 
           {/* Footer Info */}
           <YStack alignItems="center" py="$4">
-            <Paragraph color="$gray400" fontSize="$2" textAlign="center">
+            <Paragraph color="$gray500" fontSize="$4" textAlign="center">
               نسخة التطبيق Beta 1.0.0
             </Paragraph>
           </YStack>
