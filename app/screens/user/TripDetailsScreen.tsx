@@ -1,10 +1,12 @@
 import ActionFooter from "@/app/components/ActionFooter";
 import CurrentDate from "@/app/components/CurrentDate";
 import Error from "@/app/components/Error";
+import HolidayBadge from "@/app/components/HolidayBadge";
 import Loader from "@/app/components/Loader";
 import NoData from "@/app/components/NoData";
 import TripStepItem from "@/app/features/trips/components/TripStepItem";
 import useTrips from "@/app/features/trips/hooks/useTrips";
+import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
 import { useRoute } from "@react-navigation/native";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "expo-router";
@@ -14,8 +16,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Accordion, Paragraph, useTheme, XStack, YStack } from "tamagui";
 import BackButton from "../../components/BackButton";
 import { colors } from "../../constants/tamagui.config";
-import HolidayBadge from "@/app/components/HolidayBadge";
-import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
 
 export default function TripDetailsScreen() {
   const [expandedId, setExpandedId] = useState<string>("5");
@@ -105,7 +105,7 @@ export default function TripDetailsScreen() {
     isError: isAllRequirementsCompletedError,
   } = areAllTripStepsCompletedQuery(tripId);
 
-  const trip = tripData?.[0];
+  const trip = tripData;
   const steps = stepsData;
 
   const handleRetry = useCallback(() => {
@@ -154,10 +154,13 @@ export default function TripDetailsScreen() {
         {/* Main Title */}
         <YStack px="$4" mt="$2" mb="$6">
           <Paragraph fontSize={24} color={colors.gray900} textAlign="left">
-            {trip.service_name}
+            {trip?.service_name}
           </Paragraph>
           <Paragraph fontSize={14} color={colors.gray500} textAlign="left">
-            تم بدء الخدمة في: {formatDateWithWeekday(new Date(trip.created_at))}
+            تم بدء الخدمة في:{" "}
+            {trip?.created_at
+              ? formatDateWithWeekday(new Date(trip.created_at))
+              : ""}
           </Paragraph>
         </YStack>
 

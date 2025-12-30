@@ -15,13 +15,17 @@ export const getAllUserTrips = async (userId: string) => {
 };
 
 export const getTripById = async (id: string): Promise<Trip> => {
-  const { data, error } = await supabase.from("trips").select("*").eq("id", id);
+  const { data, error } = await supabase
+    .from("trips")
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (error) {
     throw error;
   }
 
-  return data as Trip;
+  return data;
 };
 
 export const getTripSteps = async (tripId: string) => {

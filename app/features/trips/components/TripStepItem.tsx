@@ -25,6 +25,7 @@ const TripStepItem = React.memo(function TripStepItem({
   uncompleteRequirement,
 }: TripStepItemProps) {
   const [checked, setChecked] = useState(false);
+  const [showContributions, setShowContributions] = useState(false);
   const isCompleted = step.is_fully_completed;
   return (
     <Accordion.Item
