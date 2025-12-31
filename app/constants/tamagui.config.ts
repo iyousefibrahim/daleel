@@ -1,5 +1,5 @@
 import { createFont, createTamagui, createTokens } from "@tamagui/core";
-import { createAnimations } from "@tamagui/animations-css";
+import { createAnimations } from "@tamagui/animations-react-native";
 
 const cairoFont = createFont({
   family: "Cairo-Regular",
@@ -319,19 +319,21 @@ const darkTheme = {
 };
 
 const animations = createAnimations({
-  quick: {
-    type: 'spring',
+  fast: {
     damping: 20,
+    mass: 1.2,
     stiffness: 250,
-    mass: 1,
   },
-  quicker: {
-    type: 'spring',
-    damping: 30,
-    stiffness: 400,
-    mass: 0.8,
+  medium: {
+    damping: 10,
+    mass: 0.9,
+    stiffness: 100,
   },
-})
+  slow: {
+    damping: 20,
+    stiffness: 60,
+  },
+});
 
 const config = createTamagui({
   tokens,
@@ -382,12 +384,13 @@ const config = createTamagui({
   animations,
 });
 
-export type AppConfig = typeof config;
+export const tamaguiConfig = createTamagui(config);
 
-declare module "@tamagui/core" {
-  interface TamaguiCustomConfig extends AppConfig {}
+export type Conf = typeof tamaguiConfig;
+
+declare module "tamagui" {
+  interface TamaguiCustomConfig extends Conf {}
 }
-export default config;
 
 // Export individual theme objects for use in components
 export { cairoFont, colors, darkTheme, lightTheme, tokens };

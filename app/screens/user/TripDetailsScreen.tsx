@@ -13,9 +13,10 @@ import { useNavigation } from "expo-router";
 import { useCallback, useState } from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Accordion, Paragraph, useTheme, XStack, YStack } from "tamagui";
+import { Accordion, Paragraph, Sheet, useTheme, XStack, YStack } from "tamagui";
 import BackButton from "../../components/BackButton";
 import { colors } from "../../constants/tamagui.config";
+import ContributionsSheet from "../../components/ContributionsSheet";
 
 export default function TripDetailsScreen() {
   const [expandedId, setExpandedId] = useState<string>("5");
@@ -142,6 +143,7 @@ export default function TripDetailsScreen() {
           py="$2"
           justifyContent="space-between"
           alignItems="center"
+          animation="fast"
         >
           <BackButton />
 
@@ -201,6 +203,7 @@ export default function TripDetailsScreen() {
           disabled={!allRequirementsCompletedData}
         />
       </YStack>
+      <ContributionsSheet />
     </SafeAreaView>
   );
 }
