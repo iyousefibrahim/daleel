@@ -119,3 +119,12 @@ export interface TripStepRequirement {
   created_at?: string;
   updated_at?: string;
 }
+export interface Contribution {
+  id: number;
+  author: string;
+  date: string;
+  upvotes: number;
+  downvotes: number;
+  text: string;
+  verified: boolean;
+}
