@@ -1,15 +1,18 @@
 import { Feather } from "@expo/vector-icons";
-import { Button, Paragraph, XStack } from "tamagui";
+import { Button, Paragraph, useTheme, XStack } from "tamagui";
 
 interface ContributionsSheetTriggerProps {
   onPress: () => void;
   count: number;
+  updatedAt: string;
 }
 
 export const ContributionsSheetTrigger = ({
   onPress,
   count,
+  updatedAt,
 }: ContributionsSheetTriggerProps) => {
+  const theme = useTheme();
   return (
     <Button
       unstyled
@@ -18,8 +21,8 @@ export const ContributionsSheetTrigger = ({
       bottom={95}
       left="$4"
       right="$4"
-      bg="white"
-      h={50}
+      bg="$white"
+      h="$12"
       borderRadius="$6"
       px="$4"
       borderWidth={1}
@@ -28,14 +31,14 @@ export const ContributionsSheetTrigger = ({
     >
       <XStack f={1} justifyContent="space-between" alignItems="center">
         <XStack alignItems="center" gap="$2">
-          <Feather name="chevron-up" size={18} color="$gray600" />
+          <Feather name="chevron-up" size={18} color={theme.gray600.get()} />
           <Paragraph fontSize={12} color="$gray500" fontFamily="$body">
-            تم التحديث 2 أغسطس
+            تم التحديث في: {updatedAt}
           </Paragraph>
         </XStack>
 
         <XStack
-          bg="#E0F2E9"
+          bg="$mint100"
           px="$3"
           py="$1.5"
           borderRadius="$6"
@@ -44,7 +47,7 @@ export const ContributionsSheetTrigger = ({
           <Paragraph
             fontSize={13}
             fontWeight="700"
-            color="#2E7D32"
+            color="$primary800"
             fontFamily="$body"
           >
             {`مشاركات الأعضاء (${count})`}

@@ -1,49 +1,48 @@
-import { useState } from "react";
-import { initialContributions } from "../api/mockData";
 import { Contribution } from "@/app/types/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import useAuth from "../../auth/hooks/useAuth";
+import {
+  addContribution,
+  contributionsUpdatedAt,
+  getContributions,
+} from "../api/contributions";
 
-export const useContributions = () => {
-  const [contributions, setContributions] =
-    useState<Contribution[]>(initialContributions);
-  const [inputText, setInputText] = useState("");
+export const useContributions = (serviceId?: string) => {
+  const { userSession } = useAuth();
+  const queryClient = useQueryClient();
 
-  const handleVote = (id: number, type: "up" | "down") => {
-    setContributions((prev) =>
-      prev.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            upvotes: type === "up" ? item.upvotes + 1 : item.upvotes,
-            downvotes: type === "down" ? item.downvotes + 1 : item.downvotes,
-          };
-        }
-        return item;
-      })
-    );
-  };
+  const getContributionsQuery = useQuery<Contribution[]>({
+    queryKey: ["contributions", serviceId],
+    queryFn: () => getContributions(serviceId),
+    enabled: !!serviceId,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 
-  const handleAddContribution = () => {
-    if (inputText.trim().length === 0) return;
+  const addContributionMutation = useMutation({
+    mutationFn: (content: string) => {
+      if (!serviceId || !userSession?.id) {
+        throw new Error("Missing serviceId or userId");
+      }
+      return addContribution(content, serviceId, userSession.id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["contributions", serviceId] });
+      queryClient.invalidateQueries({
+        queryKey: ["contributions-updated-at", serviceId],
+      });
+    },
+  });
 
-    const newContribution: Contribution = {
-      id: Date.now(),
-      author: "أنت",
-      date: "الآن",
-      upvotes: 0,
-      downvotes: 0,
-      text: inputText,
-      verified: false,
-    };
-
-    setContributions([newContribution, ...contributions]);
-    setInputText("");
-  };
+  const contributionsUpdatedAtQuery = useQuery({
+    queryKey: ["contributions-updated-at", serviceId],
+    queryFn: () => contributionsUpdatedAt(serviceId),
+    enabled: !!serviceId,
+    staleTime: 1000 * 60, // 1 minute
+  });
 
   return {
-    contributions,
-    inputText,
-    setInputText,
-    handleVote,
-    handleAddContribution,
+    addContributionMutation,
+    getContributionsQuery,
+    contributionsUpdatedAtQuery,
   };
 };

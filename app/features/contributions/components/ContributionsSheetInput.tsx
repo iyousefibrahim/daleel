@@ -6,6 +6,7 @@ interface ContributionsSheetInputProps {
   setInputText: (text: string) => void;
   onAdd: () => void;
   onFocus?: () => void;
+  isLoading?: boolean;
 }
 
 export const ContributionsSheetInput = ({
@@ -13,23 +14,30 @@ export const ContributionsSheetInput = ({
   setInputText,
   onAdd,
   onFocus,
+  isLoading,
 }: ContributionsSheetInputProps) => {
   return (
     <YStack gap="$3" bg="$background" pb="$2">
       <XStack
-        bg="#FAFAFA"
+        bg="$gray50"
         borderWidth={1}
-        borderColor="#EEEEEE"
+        borderColor="$gray200"
         br="$4"
         px="$3"
-        h={50}
+        h="$12"
         alignItems="center"
       >
-        <Button unstyled p="$2" pressStyle={{ opacity: 0.5 }} onPress={onAdd}>
+        <Button
+          unstyled
+          p="$2"
+          pressStyle={{ opacity: 0.5 }}
+          onPress={onAdd}
+          disabled={isLoading || !inputText.trim()}
+        >
           <Feather
             name="send"
             size={20}
-            color={inputText.trim() ? "$primary" : "$gray500"}
+            color={inputText.trim() && !isLoading ? "$primary" : "$gray500"}
             style={{ transform: [{ scaleX: -1 }] }}
           />
         </Button>
@@ -49,10 +57,11 @@ export const ContributionsSheetInput = ({
       </XStack>
 
       <Paragraph
-        fontSize={11}
+        fontSize="$3"
         color="$gray500"
         textAlign="center"
-        lineHeight={16}
+        lineHeight="$3"
+        fontWeight={'$4'}
         px="$4"
       >
         نعتمد على دقة مشاركتك لمساعدة الآخرين.

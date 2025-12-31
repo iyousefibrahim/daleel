@@ -1,3 +1,4 @@
+import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { ScrollView, Sheet, YStack } from "tamagui";
@@ -7,22 +8,39 @@ import { ContributionsSheetHeader } from "./ContributionsSheetHeader";
 import { ContributionsSheetInput } from "./ContributionsSheetInput";
 import { ContributionsSheetTrigger } from "./ContributionsSheetTrigger";
 
-export default function ContributionsSheet() {
+export default function ContributionsSheet({
+  serviceId,
+}: {
+  serviceId?: string;
+}) {
   const [open, setOpen] = useState(false);
+  const [inputText, setInputText] = useState("");
   const [position, setPosition] = useState(0);
   const {
-    contributions,
-    inputText,
-    setInputText,
-    handleVote,
-    handleAddContribution,
-  } = useContributions();
+    addContributionMutation,
+    getContributionsQuery,
+    contributionsUpdatedAtQuery,
+  } = useContributions(serviceId);
+
+  const handleAddContribution = () => {
+    if (!inputText.trim()) return;
+    addContributionMutation.mutate(inputText);
+    setInputText("");
+  };
+
+  const { data: contributions, isLoading, isError } = getContributionsQuery;
+
+  const updatedAt = contributionsUpdatedAtQuery.data;
+  const formattedUpdatedAt = updatedAt
+    ? formatDateWithWeekday(new Date(updatedAt))
+    : "";
 
   return (
     <>
       <ContributionsSheetTrigger
         onPress={() => setOpen(true)}
-        count={contributions.length}
+        count={contributions?.length || 0}
+        updatedAt={formattedUpdatedAt}
       />
 
       <Sheet
@@ -43,7 +61,8 @@ export default function ContributionsSheet() {
           animation="medium"
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
-          bg="rgba(0,0,0,0.5)"
+          bg="$black"
+          opacity={0.5}
         />
 
         <Sheet.Handle bg="$gray300" />
@@ -56,19 +75,22 @@ export default function ContributionsSheet() {
           >
             <YStack f={1} gap="$4">
               <ContributionsSheetHeader
-                count={contributions.length}
+                updatedAt={formattedUpdatedAt || ""}
+                count={contributions?.length || 0}
                 onClose={() => setOpen(false)}
               />
 
               <ScrollView
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ gap: 24, paddingBottom: 20 }}
+                contentContainerStyle={{ gap: "$6", paddingBottom: "$5" }}
               >
-                {contributions.map((contribution) => (
+                {contributions?.map((contribution) => (
                   <ContributionItem
                     key={contribution.id}
                     contribution={contribution}
-                    onVote={handleVote}
+                    onVote={() => {
+                      console.log("vote");
+                    }}
                   />
                 ))}
               </ScrollView>
@@ -79,6 +101,29 @@ export default function ContributionsSheet() {
                 onAdd={handleAddContribution}
                 onFocus={() => setPosition(0)}
               />
+
+              {/* : (
+                <YStack
+                  gap="$2"
+                  bg="$gray100"
+                  p="$4"
+                  br="$4"
+                  borderWidth={1}
+                  borderColor="$gray200"
+                >
+                  <Paragraph
+                    fontSize={14}
+                    color="$primary"
+                    textAlign="center"
+                    fontWeight="700"
+                  >
+                    أكمل المشوار أولاً لتتمكن من إضافة مشاركة.
+                  </Paragraph>
+                  <Paragraph fontSize={12} color="$gray500" textAlign="center">
+                    نعتمد على تجارب المستخدمين الذين أتموا مشوارهم بنجاح.
+                  </Paragraph>
+                </YStack>
+              )} */}
             </YStack>
           </KeyboardAvoidingView>
         </Sheet.Frame>

@@ -5,6 +5,7 @@ import HolidayBadge from "@/app/components/HolidayBadge";
 import Loader from "@/app/components/Loader";
 import NoData from "@/app/components/NoData";
 import ContributionsSheet from "@/app/features/contributions/components/ContributionsSheet";
+import { useContributions } from "@/app/features/contributions/hooks/useContributions";
 import TripStepItem from "@/app/features/trips/components/TripStepItem";
 import useTrips from "@/app/features/trips/hooks/useTrips";
 import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
@@ -203,7 +204,7 @@ export default function TripDetailsScreen() {
           disabled={!allRequirementsCompletedData}
         />
       </YStack>
-      <ContributionsSheet />
+      <ContributionsSheet serviceId={trip?.service_id} />
     </SafeAreaView>
   );
 }

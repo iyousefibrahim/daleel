@@ -1,5 +1,5 @@
-import { createFont, createTamagui, createTokens } from "@tamagui/core";
 import { createAnimations } from "@tamagui/animations-react-native";
+import { createFont, createTamagui, createTokens } from "@tamagui/core";
 
 const cairoFont = createFont({
   family: "Cairo-Regular",

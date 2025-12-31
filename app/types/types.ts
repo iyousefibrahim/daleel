@@ -119,12 +119,16 @@ export interface TripStepRequirement {
   created_at?: string;
   updated_at?: string;
 }
+
 export interface Contribution {
-  id: number;
-  author: string;
-  date: string;
-  upvotes: number;
-  downvotes: number;
-  text: string;
-  verified: boolean;
+  id: string; // UUID
+  user_id: string; // Foreign Key to profiles
+  service_id: string; // Foreign Key to services
+  content: string;
+  created_at: string; // ISO Timestamp
+  updated_at: string; // ISO Timestamp
+  profiles?: {
+    username: string | null;
+    full_name: string | null;
+  };
 }
