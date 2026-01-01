@@ -1,4 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import { memo } from "react";
 import { Image } from "react-native";
 import { SizableText, useTheme, YStack } from "tamagui";
 
@@ -78,4 +79,4 @@ const CategoryCard = ({
   );
 };
 
-export default CategoryCard;
+export default memo(CategoryCard);

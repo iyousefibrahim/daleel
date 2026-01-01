@@ -1,4 +1,5 @@
 import { colors } from "@/app/constants/tamagui.config";
+import { memo } from "react";
 import { Paragraph, XStack, YStack } from "tamagui";
 
 interface StepItemProps {
@@ -43,4 +44,4 @@ const StepItem = ({ number, title, description }: StepItemProps) => (
   </XStack>
 );
 
-export default StepItem;
+export default memo(StepItem);

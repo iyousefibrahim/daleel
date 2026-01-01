@@ -3,9 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HomeWelcome from "@/app/components/HomeWelcome";
 import Notifications from "@/app/components/Notifications";
 import Search from "@/app/components/Search";
-import CurrentTasks from "@/app/components/CurrentTasks";
 import { useTheme } from "tamagui";
 import DiscoverNewTrips from "@/app/features/categories/components/DiscoverNewTrips";
+import CurrentTrip from "@/app/features/trips/components/CurrentTrip";
 
 const HomeScreen = () => {
   const theme = useTheme();
@@ -24,7 +24,7 @@ const HomeScreen = () => {
         </XStack>
 
         <Search placeholder="إكتب مشوارك, تجديد بطاقة, قيد عائلي" />
-        <CurrentTasks />
+        <CurrentTrip />
         <DiscoverNewTrips />
       </ScrollView>
     </SafeAreaView>

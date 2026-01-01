@@ -1,19 +1,43 @@
-import { H4, XStack, YStack, Button, SizableText, Paragraph } from "tamagui";
-import CircularProgressRing from "./CircularProgressRing";
-import { useNavigation } from "@react-navigation/native";
+import CircularProgressRing from "@/app/components/CircularProgressRing";
+import Loader from "@/app/components/Loader";
+import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
+import { AuthenticatedNavigatorParamList } from "@/app/types/types";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { type AuthenticatedNavigatorParamList } from "../types/types";
+import { useNavigation } from "@react-navigation/native";
+import { useCallback, useMemo } from "react";
+import { Button, H4, Paragraph, SizableText, XStack, YStack } from "tamagui";
+import useTrips from "../hooks/useTrips";
+import Error from "@/app/components/Error";
 
 type NavigationProp = BottomTabNavigationProp<
   AuthenticatedNavigatorParamList,
   "Home"
 >;
 
-const CurrentTasks = () => {
+const CurrentTrip = () => {
   const navigation = useNavigation<NavigationProp>();
-  const handleShowAll = () => {
+  const { getCurrentUserTripQuery } = useTrips();
+  const { data: trip, isLoading, isError } = getCurrentUserTripQuery;
+
+  const handleShowAll = useCallback(() => {
     navigation.navigate("TripsNavigator");
-  };
+  }, [navigation]);
+
+  const currentTrip = useMemo(() => {
+    return trip;
+  }, [trip]);
+
+  if (isLoading) {
+    return <Loader message="جاري تحميل المشاوير..." />;
+  }
+
+  if (isError) {
+    return <Error message="حدث خطأ أثناء تحميل المشاوير" />;
+  }
+
+  if (!currentTrip) {
+    return null;
+  }
 
   return (
     <YStack width="100%">
@@ -62,7 +86,10 @@ const CurrentTasks = () => {
         width="100%"
       >
         <XStack width="100%" alignItems="center" justifyContent="space-between">
-          <CircularProgressRing value={1} total={5} />
+          <CircularProgressRing
+            value={currentTrip.completion_percentage || 0}
+            total={100}
+          />
           <YStack alignItems="flex-start" flex={1} marginStart="$4">
             <H4
               fontFamily="$heading"
@@ -72,7 +99,7 @@ const CurrentTasks = () => {
               fontWeight="700"
               textAlign="left"
             >
-              تجديد جواز السفر
+              {currentTrip.service_name}
             </H4>
             <Paragraph
               fontFamily="$body"
@@ -80,7 +107,9 @@ const CurrentTasks = () => {
               fontSize="$3"
               marginBottom="$2"
             >
-              الاثنين 4 أغسطس
+              {currentTrip.created_at
+                ? formatDateWithWeekday(new Date(currentTrip.created_at))
+                : ""}
             </Paragraph>
             <Paragraph
               fontFamily="$body"
@@ -88,7 +117,7 @@ const CurrentTasks = () => {
               fontSize="$4"
               fontWeight="500"
             >
-              4. إحضار كعب العمل - مكتب العمل
+              {currentTrip.completion_percentage || 0}% مكتمل
             </Paragraph>
           </YStack>
         </XStack>
@@ -97,4 +126,4 @@ const CurrentTasks = () => {
   );
 };
 
-export default CurrentTasks;
+export default CurrentTrip;

@@ -8,47 +8,49 @@ import ServiceTabs from "@/app/features/services/components/ServiceTabs";
 import useServices from "@/app/features/services/hooks/useServices";
 import { useRoute } from "@react-navigation/native";
 import * as Clipboard from "expo-clipboard";
+import { useCallback } from "react";
 import Toast from "react-native-toast-message";
 import { ScrollView, useTheme } from "tamagui";
 
 const ServiceDetailsScreen = () => {
   const route = useRoute();
   const { serviceId } = route.params as { serviceId: string };
+  const { userSession } = useAuth();
+  const theme = useTheme();
+
   const {
     getServiceByIdQuery,
     getServiceStepsQuery,
     getServiceRequirementsQuery,
     startServiceMutation,
   } = useServices();
+
   const {
     data,
     isLoading: serviceByIdLoading,
     isError: serviceByIdError,
     refetch: refetchServiceById,
   } = getServiceByIdQuery(serviceId);
+
   const {
     data: serviceStepsData,
     isLoading: serviceStepsLoading,
     isError: serviceStepsError,
     refetch: refetchServiceSteps,
   } = getServiceStepsQuery(serviceId);
-  const { userSession } = useAuth();
+
   const serviceStepId = serviceStepsData?.[0]?.id || "";
 
   const {
     data: serviceRequirementsData,
     isLoading: serviceRequirementsLoading,
     isError: serviceRequirementsError,
-    refetch: refetchServiceRequirements,
   } = getServiceRequirementsQuery(serviceStepId);
 
-  const theme = useTheme();
-
-  const handleRetry = () => {
+  const handleRetry = useCallback(() => {
     refetchServiceById();
     refetchServiceSteps();
-    refetchServiceRequirements();
-  };
+  }, [refetchServiceById, refetchServiceSteps]);
 
   const copyToClipboard = async (text: string) => {
     await Clipboard.setStringAsync(text);

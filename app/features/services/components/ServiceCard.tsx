@@ -1,5 +1,6 @@
 import { Service } from "@/app/types/types";
-import { Card, H4, Paragraph, XStack, YStack, Image } from "tamagui";
+import { memo } from "react";
+import { Card, H4, Image, Paragraph, XStack, YStack } from "tamagui";
 
 const ServiceCard = ({
   service,
@@ -80,4 +81,4 @@ const ServiceCard = ({
   );
 };
 
-export default ServiceCard;
+export default memo(ServiceCard);

@@ -1,14 +1,14 @@
-import { YStack, H2, ScrollView, Paragraph, useTheme } from "tamagui";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import useServices from "@/app/features/services/hooks/useServices";
-import ServiceCard from "@/app/features/services/components/ServiceCard";
-import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "@/app/components/BackButton";
-import Loader from "@/app/components/Loader";
 import Error from "@/app/components/Error";
+import Loader from "@/app/components/Loader";
 import NoData from "@/app/components/NoData";
+import ServiceCard from "@/app/features/services/components/ServiceCard";
+import useServices from "@/app/features/services/hooks/useServices";
+import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { H2, Paragraph, ScrollView, useTheme, YStack } from "tamagui";
 
 type CategoriesStackNavProp = NativeStackNavigationProp<
   CategoriesStackParamList,

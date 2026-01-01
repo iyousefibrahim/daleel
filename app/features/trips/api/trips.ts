@@ -28,6 +28,24 @@ export const getTripById = async (id: string): Promise<Trip> => {
   return data;
 };
 
+export const getCurrentUserTrip = async (
+  userId: string
+): Promise<Trip | null> => {
+  const { data, error } = await supabase
+    .from("trips")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("status", "in_progress")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
 export const getTripSteps = async (tripId: string) => {
   const { data, error } = await supabase
     .from("trip_steps")

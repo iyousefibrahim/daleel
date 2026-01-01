@@ -1,5 +1,6 @@
 import { colors } from "@/app/constants/tamagui.config";
 import { Image as ExpoImage } from "expo-image";
+import { memo } from "react";
 import { Paragraph, XStack, YStack } from "tamagui";
 
 interface RequirementItemProps {
@@ -48,4 +49,4 @@ const RequirementItem = ({
   </XStack>
 );
 
-export default RequirementItem;
+export default memo(RequirementItem);

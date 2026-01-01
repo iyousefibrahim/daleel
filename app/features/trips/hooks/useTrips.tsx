@@ -6,6 +6,7 @@ import {
   completeStepRequirement,
   completeTrip,
   getAllUserTrips,
+  getCurrentUserTrip,
   getTripById,
   getTripRequirements,
   getTripSteps,
@@ -18,6 +19,14 @@ const useTrips = () => {
   const getAllTripsQuery = useQuery<Trip[]>({
     queryKey: ["trips", "all"],
     queryFn: () => getAllUserTrips(userSession?.id as string),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 10, // 10 minutes
+    enabled: !!userSession?.id,
+  });
+
+  const getCurrentUserTripQuery = useQuery<Trip | null>({
+    queryKey: ["trips", "current"],
+    queryFn: () => getCurrentUserTrip(userSession?.id as string),
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 10, // 10 minutes
     enabled: !!userSession?.id,
@@ -76,6 +85,7 @@ const useTrips = () => {
 
   return {
     getAllTripsQuery,
+    getCurrentUserTripQuery,
     getTripByIdQuery,
     getTripStepsQuery,
     getTripRequirementsQuery,
