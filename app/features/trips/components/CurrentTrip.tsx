@@ -1,5 +1,5 @@
 import CircularProgressRing from "@/app/components/CircularProgressRing";
-import Loader from "@/app/components/Loader";
+import Error from "@/app/components/Error";
 import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
 import { AuthenticatedNavigatorParamList } from "@/app/types/types";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useCallback, useMemo } from "react";
 import { Button, H4, Paragraph, SizableText, XStack, YStack } from "tamagui";
 import useTrips from "../hooks/useTrips";
-import Error from "@/app/components/Error";
 
 type NavigationProp = BottomTabNavigationProp<
   AuthenticatedNavigatorParamList,
@@ -26,10 +25,6 @@ const CurrentTrip = () => {
   const currentTrip = useMemo(() => {
     return trip;
   }, [trip]);
-
-  if (isLoading) {
-    return <Loader message="جاري تحميل المشاوير..." />;
-  }
 
   if (isError) {
     return <Error message="حدث خطأ أثناء تحميل المشاوير" />;

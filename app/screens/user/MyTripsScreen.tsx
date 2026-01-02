@@ -23,7 +23,7 @@ interface MyTripsScreenProps {
   navigation: NativeStackNavigationProp<TripsStackParamList, "MyTripsList">;
 }
 
-const getStatusText = (status: TripStatus) => {
+const getStatusText = (status?: TripStatus) => {
   switch (status) {
     case "in_progress":
       return "جاري التنفيذ";
@@ -31,10 +31,12 @@ const getStatusText = (status: TripStatus) => {
       return "مكتمل";
     case "cancelled":
       return "ملغي";
+    default:
+      return "جاري التنفيذ";
   }
 };
 
-const getStatusColor = (status: TripStatus) => {
+const getStatusColor = (status?: TripStatus) => {
   switch (status) {
     case "in_progress":
       return "$primary500";
@@ -42,10 +44,12 @@ const getStatusColor = (status: TripStatus) => {
       return "$success";
     case "cancelled":
       return "$error";
+    default:
+      return "$primary500";
   }
 };
 
-const getStatusBgColor = (status: TripStatus) => {
+const getStatusBgColor = (status?: TripStatus) => {
   switch (status) {
     case "in_progress":
       return "$primary50";
@@ -53,6 +57,8 @@ const getStatusBgColor = (status: TripStatus) => {
       return "$white";
     case "cancelled":
       return "$errorBackground";
+    default:
+      return "$primary50";
   }
 };
 
@@ -127,7 +133,7 @@ const MyTripsScreen = ({ navigation }: MyTripsScreenProps) => {
                   backgroundColor: "$cardHover",
                   scale: 0.98,
                 }}
-                onPress={() => handleTripPress(trip.id)}
+                onPress={() => trip.id && handleTripPress(trip.id)}
               >
                 <XStack
                   width="100%"

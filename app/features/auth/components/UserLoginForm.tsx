@@ -132,7 +132,6 @@ const UserLoginForm = ({ navigation }: Props) => {
               px="$4"
               py="$2"
               height="$12"
-              fontSize={16}
               focusStyle={{ borderColor: "$primary500", borderWidth: 2 }}
             />
           )}
@@ -174,7 +173,6 @@ const UserLoginForm = ({ navigation }: Props) => {
                 py="$2"
                 textAlign="right"
                 height="$12"
-                fontSize={16}
                 focusStyle={{
                   borderColor: "$primary500",
                   borderWidth: 2,

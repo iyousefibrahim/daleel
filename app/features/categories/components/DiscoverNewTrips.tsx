@@ -1,11 +1,10 @@
-import Loader from "@/app/components/Loader";
+import Error from "@/app/components/Error";
 import { CategoriesStackParamList } from "@/app/navigation/CategoriesStackNavigator";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { H4, XStack, YStack } from "tamagui";
 import useCategories from "../hooks/useCategories";
 import CategoryCard from "./CategoryCard";
-import Error from "@/app/components/Error";
 
 const DiscoverNewTrips = () => {
   const navigation =
@@ -16,10 +15,6 @@ const DiscoverNewTrips = () => {
   const handleRetry = () => {
     refetch();
   };
-
-  if (isLoading) {
-    return <Loader message="جاري تحميل الفئات..." />;
-  }
 
   if (isError) {
     return (

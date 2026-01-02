@@ -69,7 +69,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background.get() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <YStack p="$4" gap="$6">
+        <YStack px="$4" gap="$6">
           {/* Header */}
           <XStack justifyContent="space-between" alignItems="center">
             <H3 fontWeight="800" lineHeight={"$9"} color={theme.color.get()}>
