@@ -72,6 +72,10 @@ const useTrips = () => {
       queryClient.invalidateQueries({
         queryKey: ["trips", "all"],
       });
+      // invalidate current trip query because the status changed
+      queryClient.invalidateQueries({
+        queryKey: ["trips", "current"],
+      });
     },
   });
 

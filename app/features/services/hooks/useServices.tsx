@@ -78,6 +78,9 @@ const useServices = () => {
       queryClient.invalidateQueries({
         queryKey: ["trips", "all"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["trips", "current"],
+      });
     },
   });
 
