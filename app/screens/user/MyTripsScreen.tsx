@@ -184,20 +184,15 @@ const MyTripsScreen = ({ navigation }: MyTripsScreenProps) => {
                   </YStack>
 
                   {/* Completion Percentage */}
-                  <YStack alignItems="center">
-                    {/* Progress Ring */}
-                    <CircularProgressRing
-                      value={trip.completion_percentage || 0}
-                      total={100}
-                    />
-                    <SizableText
-                      fontFamily="$body"
-                      color="$gray500"
-                      fontSize="$2"
-                    >
-                      {trip.completion_percentage || 0}%
-                    </SizableText>
-                  </YStack>
+                  {/* Progress Ring */}
+                  <CircularProgressRing
+                    value={trip.completion_percentage || 0}
+                    total={100}
+                    showText={true}
+                    fontSize={14}
+                    size={65}
+                    strokeWidth={6}
+                  />
                 </XStack>
               </YStack>
             ))

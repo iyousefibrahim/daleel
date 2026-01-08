@@ -50,7 +50,8 @@ export const getTripSteps = async (tripId: string) => {
   const { data, error } = await supabase
     .from("trip_steps")
     .select("*, trip_steps_requirements(*),  is_fully_completed")
-    .eq("trip_id", tripId);
+    .eq("trip_id", tripId)
+    .order("step_number", { ascending: true });
 
   if (error) {
     throw error;

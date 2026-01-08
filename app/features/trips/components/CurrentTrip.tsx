@@ -84,6 +84,10 @@ const CurrentTrip = () => {
           <CircularProgressRing
             value={currentTrip.completion_percentage || 0}
             total={100}
+            showText={true}
+            size={65}
+            fontSize={13}
+            strokeWidth={6}
           />
           <YStack alignItems="flex-start" flex={1} marginStart="$4">
             <H4
@@ -96,23 +100,10 @@ const CurrentTrip = () => {
             >
               {currentTrip.service_name}
             </H4>
-            <Paragraph
-              fontFamily="$body"
-              color="$gray600"
-              fontSize="$3"
-              marginBottom="$2"
-            >
+            <Paragraph fontFamily="$body" color="$gray600" fontSize="$3">
               {currentTrip.created_at
                 ? formatDateWithWeekday(new Date(currentTrip.created_at))
                 : ""}
-            </Paragraph>
-            <Paragraph
-              fontFamily="$body"
-              color="$gray900"
-              fontSize="$4"
-              fontWeight="500"
-            >
-              {currentTrip.completion_percentage || 0}% مكتمل
             </Paragraph>
           </YStack>
         </XStack>

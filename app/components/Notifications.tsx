@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 import { useTheme, XStack } from "tamagui";
 
 const Notifications = () => {
@@ -6,6 +7,10 @@ const Notifications = () => {
   return (
     <XStack
       onPress={() => {
+        Toast.show({
+          type: "info",
+          text1: "هذه الميزة قيد التطوير",
+        });
         console.log("Notifications clicked");
       }}
     >

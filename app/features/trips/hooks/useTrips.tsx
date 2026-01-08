@@ -59,10 +59,16 @@ const useTrips = () => {
 
   const completeStepRequirementMutation = useMutation({
     mutationFn: completeStepRequirement,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["trips"] });
+    },
   });
 
   const uncompleteStepRequirementMutation = useMutation({
     mutationFn: uncompleteStepRequirement,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["trips"] });
+    },
   });
 
   const completeTripMutation = useMutation({
