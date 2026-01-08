@@ -11,6 +11,7 @@ import {
   getServiceRequirements,
   getServicesByCategoryId,
   getServiceSteps,
+  searchServices,
   startService,
 } from "../api/services";
 
@@ -61,6 +62,14 @@ const useServices = () => {
       gcTime: 1000 * 60 * 60, // 1 hour
     });
 
+  const searchServicesQuery = (query: string) =>
+    useQuery<Service[]>({
+      queryKey: ["services", "search", query],
+      queryFn: () => searchServices(query),
+      enabled: !!query,
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    });
+
   const startServiceMutation = useMutation<
     Trip,
     Error,
@@ -90,6 +99,7 @@ const useServices = () => {
     getServicesByCategoryIdQuery,
     getServiceStepsQuery,
     getServiceRequirementsQuery,
+    searchServicesQuery,
     startServiceMutation,
   };
 };

@@ -10,3 +10,14 @@ export const getCategories = async (limit: number = 5) => {
 
   return categories;
 };
+
+export const searchCategories = async (query: string) => {
+  const { data, error } = await supabase
+    .from("categories")
+    .select("*")
+    .ilike("name", `%${query}%`);
+
+  if (error) throw error;
+
+  return data;
+};

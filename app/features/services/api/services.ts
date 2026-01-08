@@ -38,6 +38,19 @@ export const getServicesByCategoryId = async (category_id: string) => {
   return data;
 };
 
+export const searchServices = async (query: string) => {
+  const { data, error } = await supabase
+    .from("services")
+    .select("*")
+    .ilike("name", `%${query}%`);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
 export const getServiceSteps = async (service_id: string) => {
   const { data, error } = await supabase
     .from("service_steps")
