@@ -5,6 +5,7 @@ import {
   areAllTripStepsCompleted,
   completeStepRequirement,
   completeTrip,
+  deleteTrip,
   getAllUserTrips,
   getCurrentUserTrip,
   getTripById,
@@ -93,6 +94,14 @@ const useTrips = () => {
       staleTime: 1000 * 60 * 5, // 5 minutes
     });
 
+  const deleteTripMutation = useMutation({
+    mutationFn: deleteTrip,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["trips", "all"] });
+      queryClient.invalidateQueries({ queryKey: ["trips", "current"] });
+    },
+  });
+
   return {
     getAllTripsQuery,
     getCurrentUserTripQuery,
@@ -103,6 +112,7 @@ const useTrips = () => {
     completeStepRequirementMutation,
     uncompleteStepRequirementMutation,
     completeTripMutation,
+    deleteTripMutation,
   };
 };
 

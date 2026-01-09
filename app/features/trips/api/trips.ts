@@ -113,6 +113,19 @@ export const completeTrip = async (tripId: string) => {
   return data;
 };
 
+export const deleteTrip = async (tripId: string) => {
+  const { data, error } = await supabase
+    .from("trips")
+    .delete()
+    .eq("id", tripId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
 export const areAllTripStepsCompleted = async (tripId: string) => {
   const { data, error } = await supabase.rpc("check_all_trip_steps_completed", {
     p_trip_id: tripId,
