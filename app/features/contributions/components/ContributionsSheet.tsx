@@ -20,6 +20,7 @@ export default function ContributionsSheet({
     addContributionMutation,
     getContributionsQuery,
     contributionsUpdatedAtQuery,
+    voteMutation,
   } = useContributions(serviceId);
 
   const handleAddContribution = () => {
@@ -88,8 +89,11 @@ export default function ContributionsSheet({
                   <ContributionItem
                     key={contribution.id}
                     contribution={contribution}
-                    onVote={() => {
-                      console.log("vote");
+                    onVote={(id, type) => {
+                      voteMutation.mutate({
+                        contributionId: id,
+                        voteType: type,
+                      });
                     }}
                   />
                 ))}
@@ -101,29 +105,6 @@ export default function ContributionsSheet({
                 onAdd={handleAddContribution}
                 onFocus={() => setPosition(0)}
               />
-
-              {/* : (
-                <YStack
-                  gap="$2"
-                  bg="$gray100"
-                  p="$4"
-                  br="$4"
-                  borderWidth={1}
-                  borderColor="$gray200"
-                >
-                  <Paragraph
-                    fontSize={14}
-                    color="$primary"
-                    textAlign="center"
-                    fontWeight="700"
-                  >
-                    أكمل المشوار أولاً لتتمكن من إضافة مشاركة.
-                  </Paragraph>
-                  <Paragraph fontSize={12} color="$gray500" textAlign="center">
-                    نعتمد على تجارب المستخدمين الذين أتموا مشوارهم بنجاح.
-                  </Paragraph>
-                </YStack>
-              )} */}
             </YStack>
           </KeyboardAvoidingView>
         </Sheet.Frame>

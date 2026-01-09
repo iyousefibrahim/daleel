@@ -1,12 +1,14 @@
 import { colors } from "@/app/constants/tamagui.config";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { Paragraph, XStack, YStack } from "tamagui";
 
 interface ServiceHeaderProps {
   name: string;
+  upvotes: number;
+  downvotes: number;
 }
 
-const ServiceHeader = ({ name }: ServiceHeaderProps) => {
+const ServiceHeader = ({ name, upvotes, downvotes }: ServiceHeaderProps) => {
   return (
     <YStack
       p="$4"
@@ -29,18 +31,15 @@ const ServiceHeader = ({ name }: ServiceHeaderProps) => {
       <XStack gap="$3" alignItems="center" justifyContent="flex-start">
         <XStack gap="$1" alignItems="center">
           <Paragraph size="$5" fontWeight="600" color={colors.gray900}>
-            4.8
+            {upvotes}
           </Paragraph>
-          <Ionicons name="star" size={16} color={colors.warning} />
-          <Paragraph size="$3" color={colors.gray500}>
-            (120 تقييم)
-          </Paragraph>
+          <Feather name="arrow-up" size={16} color={colors.primary500} />
         </XStack>
         <XStack gap="$1" alignItems="center">
-          <Paragraph size="$3" color={colors.gray500}>
-            أيام عمل 3
+          <Paragraph size="$5" fontWeight="600" color={colors.gray900}>
+            {downvotes}
           </Paragraph>
-          <Ionicons name="time-outline" size={16} color={colors.success} />
+          <Feather name="arrow-down" size={16} color="red" />
         </XStack>
       </XStack>
     </YStack>

@@ -131,4 +131,7 @@ export interface Contribution {
     username: string | null;
     full_name: string | null;
   };
+  upvotes_count: number;
+  downvotes_count: number;
+  user_vote: "up" | "down" | null;
 }

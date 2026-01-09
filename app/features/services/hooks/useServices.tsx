@@ -11,6 +11,7 @@ import {
   getServiceRequirements,
   getServicesByCategoryId,
   getServiceSteps,
+  getServiceVoteTotals,
   searchServices,
   startService,
 } from "../api/services";
@@ -93,6 +94,14 @@ const useServices = () => {
     },
   });
 
+  const getServiceVoteTotalsQuery = (serviceId: string) =>
+    useQuery<{ upvotes_count: number; downvotes_count: number }>({
+      queryKey: ["services", "votes", serviceId],
+      queryFn: () => getServiceVoteTotals(serviceId),
+      enabled: !!serviceId,
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    });
+
   return {
     getAllServicesQuery,
     getServiceByIdQuery,
@@ -101,6 +110,7 @@ const useServices = () => {
     getServiceRequirementsQuery,
     searchServicesQuery,
     startServiceMutation,
+    getServiceVoteTotalsQuery,
   };
 };
 

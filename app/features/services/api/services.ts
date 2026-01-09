@@ -214,10 +214,18 @@ export const startService = async (
   return trip;
 };
 
-export const completeService = async (service_id: string) => {
-  // TODO: implement complete service
-};
-
 export const cancelService = async (service_id: string) => {
   // TODO: implement cancel service
+};
+
+export const getServiceVoteTotals = async (service_id: string) => {
+  const { data, error } = await supabase.rpc("get_service_vote_totals", {
+    service_id_param: service_id,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data?.[0] || { upvotes_count: 0, downvotes_count: 0 };
 };

@@ -23,6 +23,7 @@ const ServiceDetailsScreen = () => {
     getServiceStepsQuery,
     getServiceRequirementsQuery,
     startServiceMutation,
+    getServiceVoteTotalsQuery,
   } = useServices();
 
   const {
@@ -46,6 +47,12 @@ const ServiceDetailsScreen = () => {
     isLoading: serviceRequirementsLoading,
     isError: serviceRequirementsError,
   } = getServiceRequirementsQuery(serviceStepId);
+
+  const {
+    data: voteTotals,
+    isLoading: voteTotalsLoading,
+    isError: voteTotalsError,
+  } = getServiceVoteTotalsQuery(serviceId);
 
   const handleRetry = useCallback(() => {
     refetchServiceById();
@@ -87,12 +94,18 @@ const ServiceDetailsScreen = () => {
     );
   };
 
-  if (serviceByIdLoading || serviceStepsLoading || serviceRequirementsLoading)
+  if (
+    serviceByIdLoading ||
+    serviceStepsLoading ||
+    serviceRequirementsLoading ||
+    voteTotalsLoading
+  )
     return <Loader message="جاري تحميل الخدمة..." />;
   if (
     serviceByIdError ||
     serviceStepsError ||
     serviceRequirementsError ||
+    voteTotalsError ||
     !data
   )
     return <Error message="حدث خطأ، حاول مرة أخرى." onClick={handleRetry} />;
@@ -109,7 +122,11 @@ const ServiceDetailsScreen = () => {
           }
         />
 
-        <ServiceHeader name={data.name} />
+        <ServiceHeader
+          name={data.name}
+          upvotes={voteTotals?.upvotes_count || 0}
+          downvotes={voteTotals?.downvotes_count || 0}
+        />
 
         <ServiceTabs
           description={data.description}

@@ -1,9 +1,8 @@
-import { colors } from "@/app/constants/tamagui.config";
 import { formatDateWithWeekday } from "@/app/lib/utils/dateUtils";
 import { Contribution } from "@/app/types/types";
-import { Feather } from "@expo/vector-icons";
 import { memo } from "react";
-import { Button, Paragraph, XStack, YStack } from "tamagui";
+import { Paragraph, XStack, YStack } from "tamagui";
+import VoteButtons from "./VoteButtons";
 
 interface ContributionItemProps {
   contribution: Contribution;
@@ -57,36 +56,3 @@ export const ContributionItem = memo(
   }
 );
 
-const VoteButtons = ({ contribution, onVote }: ContributionItemProps) => {
-  return (
-    <>
-      <XStack gap="$1" alignItems="center">
-        <Paragraph fontSize={14} color="$gray600">
-          0
-        </Paragraph>
-        <Button
-          unstyled
-          onPress={() => onVote(contribution.id, "up")}
-          pressStyle={{ scale: 0.9 }}
-          hitSlop={10}
-        >
-          <Feather name="arrow-up" size={16} color={colors.primary500} />
-        </Button>
-      </XStack>
-
-      <XStack gap="$1" alignItems="center">
-        <Paragraph fontSize={14} color="$gray600">
-          0
-        </Paragraph>
-        <Button
-          unstyled
-          onPress={() => onVote(contribution.id, "down")}
-          pressStyle={{ scale: 0.9 }}
-          hitSlop={10}
-        >
-          <Feather name="arrow-down" size={16} color="red" />
-        </Button>
-      </XStack>
-    </>
-  );
-};
