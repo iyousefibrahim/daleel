@@ -50,10 +50,21 @@ const Search = ({ placeholder }: SearchProps) => {
         params: { categoryId: item.id },
       });
     } else {
+      // For services, navigate to CategoryServices first, then to ServiceDetails
+      // This ensures the back button takes users to the category services list
       (navigation as any).navigate("Services", {
-        screen: "ServiceDetails",
-        params: { serviceId: item.id },
+        screen: "CategoryServices",
+        params: { categoryId: item.category_id },
+        initial: false,
       });
+
+      // Then navigate to the service details
+      setTimeout(() => {
+        (navigation as any).navigate("Services", {
+          screen: "ServiceDetails",
+          params: { serviceId: item.id },
+        });
+      }, 100);
     }
   };
 

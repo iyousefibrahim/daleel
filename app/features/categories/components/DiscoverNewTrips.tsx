@@ -60,10 +60,18 @@ const DiscoverNewTrips = () => {
                   screen: "CategoriesList",
                 });
               } else {
+                // Navigate to CategoriesList first to ensure it's in the stack
                 nav.navigate("Services", {
-                  screen: "CategoryServices",
-                  params: { categoryId: cat.id },
+                  screen: "CategoriesList",
                 });
+
+                // Then navigate to CategoryServices
+                setTimeout(() => {
+                  nav.navigate("Services", {
+                    screen: "CategoryServices",
+                    params: { categoryId: cat.id },
+                  });
+                }, 100);
               }
             }}
           />
